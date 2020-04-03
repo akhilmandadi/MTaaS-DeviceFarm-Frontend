@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.cardBox {
+  box-shadow:0 2px 5px rgba(0,0,0,0.3)
+}
+
+.cardBox:hover {
+  box-shadow:0 4px 10px rgba(0,0,0,0.35);
+  cursor: pointer;
+}
