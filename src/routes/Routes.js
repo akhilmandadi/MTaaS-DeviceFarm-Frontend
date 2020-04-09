@@ -7,6 +7,7 @@ import ManagerProjects from '../components/manager/projects';
 import TestersOfProject from '../components/manager/testers';
 import TesterProjects from '../components/tester/projects';
 import TesterProjectDashboard from '../components/tester/testerProjectDashboard';
+import Analytics from '../components/manager/analytics';
 
 class Routes extends Component {
   render() {
@@ -21,6 +22,7 @@ class Routes extends Component {
 
         <Route path="/tester/projects" exact component={TesterProjects} />
         <Route path="/project/:id/dashboard" exact component={TesterProjectDashboard} />
+        <Route path="/analytics" exact component={Analytics} />
       </div>
     );
   }

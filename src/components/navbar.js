@@ -31,6 +31,7 @@ class NavBar extends Component {
                 <ul class="nav navbar-nav navbar-right">
                     <li><Link to="/manager/projects" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span>Projects</Link></li>
                     <li><Link to="/manager/bugs" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span>Bugs</Link></li>
+                    <li><Link to="/analytics" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span>Cost</Link></li>
                     <li><Link to="/signin" onClick={this.handleLogout} style={{ color: "black" }}><span class="glyphicon glyphicon-log-out"></span> Logout</Link></li>
                 </ul>
             )
@@ -49,7 +50,10 @@ class NavBar extends Component {
                 </ul>
             )
         }
-        let redirectVar = <Redirect to="/signin" />
+        let redirectVar = null;
+        if (!sessionStorage.getItem("persona")) {
+            redirectVar = <Redirect to="/signin" />
+        }
         return (
             <div>
                 {redirectVar}
