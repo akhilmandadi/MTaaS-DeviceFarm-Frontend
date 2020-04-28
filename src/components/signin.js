@@ -28,7 +28,7 @@ class SignIn extends Component {
 
     authenticateUser = (event) => {
         event.preventDefault();
-        let url = process.env.REACT_APP_BACKEND_URL + '/signin?persona=' + this.state.persona + '&email=' + this.state.email;
+        let url = process.env.REACT_APP_BACKEND_URL + '/signin?persona=' + this.state.persona + '&email=' + this.state.email + '&password=' + this.state.password;
         axios.defaults.withCredentials = true;
         axios.get(url)
             .then(response => {
@@ -92,20 +92,20 @@ class SignIn extends Component {
         return (
             <div style={{ marginTop: "40px", overflowX: "hidden" }}>
                 {home}
-                <div class="container" style={{ width: "420px", backgroundColor: "white",borderRadius: "7px",padding:"30px 40px 30px" }}>
+                <div class="container" style={{ width: "450px", backgroundColor: "white", borderRadius: "7px", padding: "30px 40px 30px" }}>
                     <div class="login-form">
                         <div class="panel">
                             <h2 style={{ textAlign: "center" }}>Sign In</h2>
                         </div>
-                        <div className="row" style={{ marginLeft: "5px", marginBottom: "10px", marginTop: "30px" }}>
+                        <div className="row" style={{ marginLeft: "10px", marginBottom: "10px", marginTop: "30px" }}>
                             <div class="col-md-4 radio-inline">
                                 <input type="radio" value="tester" name="persona" onChange={this.changePersona} defaultChecked /><p>I'm a Tester</p>
                             </div>
-                            <div class="col-md-4 radio-inline" style={{ margin: "0px", padding: "0px 10px 0px" }}>
+                            <div class="col-md-4 radio-inline" style={{ margin: "0px", paddingLeft: "5px" }}>
                                 <input type="radio" value="manager" name="persona" onChange={this.changePersona} /><p>I'm a Manger</p>
                             </div>
-                            <div class="col-md-3 radio-inline">
-                                <input type="radio" value="manager" name="persona" onChange={this.changePersona} /><p>Admin</p>
+                            <div class="col-md-3 radio-inline" style={{ padding: "0px"}}>
+                                <input type="radio" value="admin" name="persona" onChange={this.changePersona} /><p>System Staff</p>
                             </div>
                         </div>
                         <form className="form" onSubmit={this.authenticateUser}>

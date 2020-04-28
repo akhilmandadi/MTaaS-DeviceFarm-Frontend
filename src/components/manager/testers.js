@@ -41,9 +41,10 @@ class Testers extends Component {
     }
 
     componentDidMount() {
+        this.props.getProjectInfo()
         this.setState({
-            project: this.props.location.project,
-            testers: _.isEmpty(this.props.location.project) ? [] : this.props.location.project.testers
+            project: this.props.project,
+            testers: _.isEmpty(this.props.project) ? [] : this.props.project.testers
         })
     }
 
@@ -108,29 +109,38 @@ class Testers extends Component {
         let addDialog = null;
         if (this.state.enableAdd) addDialog = (<AddTesters toggleAddTesters={this.toggleAddTesters} projectId={this.state.project._id} enableAdd={this.state.enableAdd} updateTesters={this.updateTesters} />)
         else addDialog = null;
+        let addTesterButton = null;
+        if (sessionStorage.getItem("persona") === "manager") {
+            addTesterButton = (
+                <div className="col-md-12" style={{ marginBottom: "0px", textAlign: "right" }}>
+                    <Button variant="outlined" color="primary" onClick={this.toggleAddTesters} style={{ marginLeft: "8px", marginBottom: "5px", padding: "7px", border: "1.5px solid #3f51b5" }}>
+                        <b style={{ fontSize: "10px" }}>Add Testers to Project</b>
+                    </Button>
+                    <br />
+                </div>
+            )
+        } else {
+            addTesterButton = null;
+        }
         return (
             <div className="container" style={{ width: "75%", alignItems: "center", marginTop: "20px" }}>
                 {addDialog}
                 <div className="row">
-                    <div className="col-md-9" style={{ paddingLeft: "20px", marginBottom: "10px" }}>
+                    {/* <div className="col-md-9" style={{ paddingLeft: "20px", marginBottom: "10px" }}>
                         <Link to="/manager/projects" style={{ textDecoration: "none" }}>
                             <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "rgb(225, 225, 225)" }} onClick={this.toggleCreate} >
                                 <ArrowBackIcon fontSize="large" /><b style={{ fontSize: "10px" }}> Back to All Projects</b>
                             </Fab>
                         </Link>
-                    </div>
-                    <div className="col-md-3" style={{ marginBottom: "0px", textAlign: "right" }}>
-                        <Button variant="outlined" color="primary" onClick={this.toggleAddTesters} style={{ marginLeft: "8px", marginBottom: "5px", padding: "7px" }}>
-                            <b style={{ fontSize: "10px" }}>Add Testers to Project</b>
-                        </Button>
-                    </div>
-                    <br /><br />
+                    </div> */}
+                    {addTesterButton}
+                    
                 </div>
-                <Card style={{ borderRadius: ".5px", marginBottom: "0px", padding: "12px", backgroundColor: "white", textAlign: "center" }}>
+                {/* <Card style={{ borderRadius: ".5px", marginBottom: "0px", padding: "12px", backgroundColor: "white", textAlign: "center" }}>
                     <div className="row">
                         <h3 style={{ display: "inline", marginRight: "10px" }}>{this.state.project.name}</h3>
                     </div>
-                </Card>
+                </Card> */}
                 <Paper style={{ width: "100%", align: "center" }}>
                     <TableContainer style={{ maxHeight: "80%" }}>
                         <Table stickyHeader aria-label="sticky table">
@@ -140,7 +150,7 @@ class Testers extends Component {
                                         <TableCell
                                             key={column.id}
                                             align={column.align}
-                                            style={{ minWidth: column.minWidth, backgroundColor: "rgb(225, 225, 225)", fontWeight: "bold", textAlign: "center", fontSize: "13px" }}
+                                            style={{ minWidth: column.minWidth, backgroundColor: "#ababab", fontWeight: "bold", textAlign: "center", fontSize: "13px" }}
                                         >
                                             {column.label}
                                         </TableCell>
@@ -153,7 +163,7 @@ class Testers extends Component {
                                         <TableRow hover role="checkbox" tabIndex={-1} key={row['id']['_id']}>
                                             {columns.map(column => {
                                                 let value = row['id'][column.id];
-                                                if (column.id === "remove") {
+                                                if (column.id === "remove" && sessionStorage.getItem("persona") === "manager") {
                                                     return (
                                                         <TableCell style={{ fontSize: "10px", textAlign: "center" }} onClick={() => this.deleteTester(row['id']["_id"])} id={row["_id"]}>
                                                             <Button color="secondary">Remove from Project</Button>
