@@ -4,6 +4,8 @@ import Axios from 'axios';
 import { Button, Table } from 'react-bootstrap';
 import qs from 'qs';
 import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Fab from "@material-ui/core/Fab";
 
 function ShowTests(props) {
   let {allocationId,testerId,projectId} = useParams();
@@ -49,6 +51,13 @@ function ShowTests(props) {
   }
   return (
     <div className="container" style={{ width: "80%", align: "center", marginTop: "20px" }}>
+      <div className="row">
+        <Link to={`/tester/${testerId}/project/${projectId}/ondemand_allocations/real`} style={{ textDecoration: "none" }}>
+            <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "rgb(225, 225, 225)" }} >
+                <ArrowBackIcon fontSize="large" /><b style={{ fontSize: "10px" }}> Back</b>
+            </Fab>
+        </Link>
+      </div>
       <div className="row">
         <h3>Tests run/running on this device</h3>
         {createNewTestTag}

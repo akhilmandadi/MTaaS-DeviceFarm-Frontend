@@ -7,7 +7,7 @@ function OnDemandAllocationsList(props) {
   let allocations = props.allocations;
 
   let handleDeallocate = (allocationId) => {
-    let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/ondemand/${allocationId}/deallocate`
+    let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/ondemand/${allocationId}/deallocate/emulator`
     Axios.post(url).then(resp =>{
       if(resp.status === 200 && resp.data.success){
         props.setAllocations({status: 'loading'});
@@ -24,7 +24,7 @@ function OnDemandAllocationsList(props) {
         <td>OS Type</td>
         <td>OS Version</td>
         <td>Allocation Start Time</td>
-        <td>Deallocate</td>
+        <td>Allocation End Time</td>
       </tr>
     </thead>
     <tbody>
@@ -36,7 +36,7 @@ function OnDemandAllocationsList(props) {
           deallocationTag = <Button variant='primary' onClick={e =>handleDeallocate(allocation._id)}>Deallocate</Button>
         }
         return <tr>
-          <td ><Link to={`/tester/${allocation.tester}/project/${allocation.project._id}/allocation/${allocation._id}/tests?isActive=${allocation.ended === undefined}`}>{allocation.device.deviceId}</Link></td>
+          <td ><Link to={`/tester/${allocation.tester}/project/${allocation.project._id}/allocation/${allocation._id}/emulator`}>{allocation.device.deviceId}</Link></td>
           <td >{allocation.device.name}</td>
           <td >{allocation.device.deviceType}</td>
           <td >{allocation.device.osType}</td>

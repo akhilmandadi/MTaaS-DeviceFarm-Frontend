@@ -27,7 +27,7 @@ function SelectOnDemandDevice(props) {
       project: props.projectId,
       devices: devices
     }
-    let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/ondemand`;
+    let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/ondemand/real`;
     Axios.post(url,formData,{validateStatus: false}).then(resp => {
       if(resp.status===200 && resp.data.success){
         props.setAllocations({status: 'loading'});

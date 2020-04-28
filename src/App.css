@@ -66,3 +66,6 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+#pre-booking .modal-dialog {
+  min-width: 1200px !important
+}
