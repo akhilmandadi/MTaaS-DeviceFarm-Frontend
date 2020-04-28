@@ -25,11 +25,13 @@ class Projects extends Component {
         this.viewApplicants = this.viewApplicants.bind(this);
         this.toggleCreate = this.toggleCreate.bind(this);
         this.updateProjects = this.updateProjects.bind(this);
+        this.deleteProject = this.deleteProject.bind(this);
     }
 
     componentDidMount() {
         this.updateProjects();
     }
+
     updateProjects = () => {
         let url = process.env.REACT_APP_BACKEND_URL + '/projects/' + sessionStorage.getItem("id") + '?persona=manager';
         axios.defaults.withCredentials = true;
@@ -76,6 +78,20 @@ class Projects extends Component {
         })
 
     }
+
+    deleteProject = id => {
+        let url = process.env.REACT_APP_BACKEND_URL + '/projects/' + id;
+        axios.delete(url)
+            .then(response => {
+                if (response.status === 200) {
+                    this.updateProjects();
+                }
+            })
+            .catch((error) => {
+                this.updateProjects();
+            });
+    }
+
     render() {
         const colors = ["#3c4f36", "#626e7b", "#254284", "teal", "#003300"]
         let createDialog = null;
@@ -84,7 +100,7 @@ class Projects extends Component {
         let errorBanner = null;
         if (this.state.projects.length === 0) errorBanner = (<b>No Projects Found</b>)
         return (
-            <div className="container" style={{ width: "85%", align: "center", marginTop: "20px" }}>
+            <div className="container" style={{ width: "85%", align: "center", marginTop: "10px" }}>
                 {createDialog}
                 <div className="row">
                     <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "white" }} onClick={this.toggleCreate} >
@@ -95,19 +111,19 @@ class Projects extends Component {
                 <div className="row">
                     {this.state.projects.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((project, index) => {
                         return (
-                            <Link to={{ pathname: '/project/' + project._id + '/testers', project: project }} style={{ textDecoration: "none" }}>
-                                <div className="col-md-3" style={{ width: "260px", marginRight: "5px", marginTop: "5px", marginBottom: "15px", paddingLeft: "0px" }}>
-                                    <Card className="cardBox">
-                                        <CardHeader style={{ backgroundColor: colors[index % 5] }}
-                                            avatar={
-                                                <div style={{ height: "100px" }}></div>
-                                            }
-                                            action={
-                                                <IconButton aria-label="settings">
-                                                    <span title="Delete" class="glyphicon glyphicon-trash" style={{ fontSize: "16px", color: "red" }}></span>
-                                                </IconButton>
-                                            }
-                                        />
+                            <div className="col-md-3" style={{ width: "260px", marginRight: "5px", marginTop: "5px", marginBottom: "15px", paddingLeft: "0px" }}>
+                                <Card className="cardBox">
+                                    <CardHeader style={{ backgroundColor: colors[index % 5] }}
+                                        avatar={
+                                            <div style={{ height: "100px" }}></div>
+                                        }
+                                        action={
+                                            <IconButton aria-label="settings" onClick={() => this.deleteProject(project._id)}>
+                                                <span title="Delete" class="glyphicon glyphicon-trash" style={{ fontSize: "16px", color: "red" }}></span>
+                                            </IconButton>
+                                        }
+                                    />
+                                    <Link to={{ pathname: '/manager/project/' + project._id + '/dashboard', project: project }} style={{ textDecoration: "none" }}>
                                         <CardContent className="cardBoxColor" style={{ paddingBottom: "0px", paddingTop: "10px" }}>
                                             <div title={project.name} style={{ fontSize: "16px", color: "#3c4f36", fontWeight: "600", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
                                                 {project.name}
@@ -117,16 +133,17 @@ class Projects extends Component {
                                             </div>
                                         </CardContent>
                                         <CardActions disableSpacing style={{ paddingTop: "10px" }}>
-                                            <Link to={{ pathname: '/project/' + project._id + '/testers', project: project }}
+                                            <Link to={{ pathname: '/manager/project/' + project._id + '/dashboard', project: project }}
                                                 style={{ textDecoration: "none" }}>
                                                 <Button variant="outlined" color="primary" style={{ marginLeft: "8px", marginBottom: "5px " }}>
-                                                    View Testers
+                                                    View Project Details
                                             </Button>
                                             </Link>
                                         </CardActions>
-                                    </Card>
-                                </div>
-                            </Link>
+                                    </Link>
+                                </Card>
+                            </div>
+
                         );
                     })}
                 </div>
@@ -140,7 +157,7 @@ class Projects extends Component {
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 />
-            </div>
+            </div >
         )
     }
 }
