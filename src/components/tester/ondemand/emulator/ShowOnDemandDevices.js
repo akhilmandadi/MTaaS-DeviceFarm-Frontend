@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Button, Modal, Table, Form } from 'react-bootstrap';
 import Axios from 'axios';
 import SelectOnDemandDevice from './SelectOnDemandDevice';
+<<<<<<< HEAD
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+=======
+>>>>>>> ondemand prebooking real and emulator
 
 function ShowOnDemandDevices(props) {
   let [devicesResp,setdevicesResp] = useState({show: false, devices: null});

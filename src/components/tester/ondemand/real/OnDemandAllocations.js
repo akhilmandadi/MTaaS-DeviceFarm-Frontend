@@ -8,8 +8,12 @@ import Fab from "@material-ui/core/Fab";
 import { Link } from 'react-router-dom';
 
 function OnDemandAllocations(props) {
+<<<<<<< HEAD
   // let {testerId,projectId} = useParams();
   let {testerId,projectId} = props;
+=======
+  let {testerId,projectId} = useParams();
+>>>>>>> ondemand prebooking real and emulator
   let [allocationResp,setAllocations] = useState({status: 'loading',allocations: {},childMsg:null});
   let params = {
     tester: testerId,
