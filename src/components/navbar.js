@@ -30,7 +30,11 @@ class NavBar extends Component {
             navBar = (
                 <ul class="nav navbar-nav navbar-right" >
                     <li><Link to="/manager/projects" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span><b>Projects</b></Link></li>
+<<<<<<< HEAD
                     <li><Link to="/manager/billing" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span><b> Billing</b></Link></li>
+=======
+                    <li><Link to="/analytics" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span><b> Billing</b></Link></li>
+>>>>>>> Create Run , Bugs, Admin Actions
                     <li><Link to="/signin" onClick={this.handleLogout} style={{ color: "black" }}><span class="glyphicon glyphicon-log-out"></span><b> Logout</b></Link></li>
                 </ul>
             )

@@ -70,11 +70,19 @@ class Bugs extends Component {
     }
 
     render() {
+<<<<<<< HEAD
         const {  project } = this.props;
         let errorBanner = null;
         if (this.state.bugs.length === 0) errorBanner = (<b>No Bugs Found for this project</b>)
         let createDialog = null;
         if (this.state.enableCreate) createDialog = (<CreateBug id={project._id} toggleCreate={this.toggleCreate} enableCreate={this.state.enableCreate} updateProjects={this.updateProjects} />)
+=======
+        const { match: { params } } = this.props;
+        let errorBanner = null;
+        if (this.state.bugs.length === 0) errorBanner = (<b>No Bugs Found for this project</b>)
+        let createDialog = null;
+        if (this.state.enableCreate) createDialog = (<CreateBug id={params.id} toggleCreate={this.toggleCreate} enableCreate={this.state.enableCreate} updateProjects={this.updateProjects} />)
+>>>>>>> Create Run , Bugs, Admin Actions
         else createDialog = null;
         return (
             <div className="container" style={{ width: "80%", align: "center", marginTop: "20px" }}>
@@ -83,6 +91,13 @@ class Bugs extends Component {
                     <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "white" }} onClick={this.toggleCreate} >
                         <AddIcon /><b style={{ fontSize: "10px" }}>Create New Bug</b>
                     </Fab>
+<<<<<<< HEAD
+=======
+                    <Link to={{ pathname: `/project/${params.id}/dashboard` }} 
+                    style={{ textDecoration: "underline", marginLeft:"20px" }}>
+                        <b>Back to Project Dashboard</b>
+                    </Link>
+>>>>>>> Create Run , Bugs, Admin Actions
                     <br /><br />
                 </div>
                 <div className="row">
