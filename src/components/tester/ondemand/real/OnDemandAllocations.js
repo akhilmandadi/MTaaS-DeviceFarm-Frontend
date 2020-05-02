@@ -8,7 +8,8 @@ import Fab from "@material-ui/core/Fab";
 import { Link } from 'react-router-dom';
 
 function OnDemandAllocations(props) {
-  let {testerId,projectId} = useParams();
+  // let {testerId,projectId} = useParams();
+  let {testerId,projectId} = props;
   let [allocationResp,setAllocations] = useState({status: 'loading',allocations: {},childMsg:null});
   let params = {
     tester: testerId,
@@ -29,11 +30,11 @@ function OnDemandAllocations(props) {
   }
   return <div className="container" style={{ width: "80%", align: "center", marginTop: "20px" }}>
     <div className="row">
-      <Link to={`/tester/${testerId}/project/${projectId}/ondemand_device_types`} style={{ textDecoration: "none" }}>
+      {/* <Link to={`/tester/${testerId}/project/${projectId}/ondemand_device_types`} style={{ textDecoration: "none" }}>
           <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "rgb(225, 225, 225)" }} >
               <ArrowBackIcon fontSize="large" /><b style={{ fontSize: "10px" }}> Back</b>
           </Fab>
-      </Link>
+      </Link> */}
     </div>
     <div className="row">
       <h3>On Demand Allocated Real Devices</h3>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
-import { Redirect } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import Button from '@material-ui/core/Button';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Loading from '../loading';
+import Loading from '../../../loading';
 
 class CreateRun extends Component {
     constructor(props) {
@@ -53,7 +53,9 @@ class CreateRun extends Component {
             currentDevices: [],
             loading: false,
             loadingText: "",
-            scheduleStatus: false
+            scheduleStatus: false,
+            allocationId: null,
+            allocationType: null,
         }
         this.onChange = this.onChange.bind(this);
         this.createRun = this.createRun.bind(this);
@@ -62,9 +64,18 @@ class CreateRun extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            currentDevices: this.state.supportedDevices[0]
-        })
+        const { match: { params } } = this.props;
+        let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/${params.allocationType}/${params.allocationId}`
+        axios.get(url).then(resp => {
+            let allocation = resp.data;
+            this.setState({
+                currentDevices: this.state.supportedDevices[0],
+                allocationId: allocation._id,
+                selectedOS: allocation.device.osType,
+                selectedDevices: [{name: allocation.device.name, arn: allocation.device.arn}],
+                allocationType: params.allocationType === 'ondemand' ? 'OnDemandAlloation' : 'PreBookAllocation'
+            })
+        });
     }
 
     onChangeTestType = (e) => {
@@ -98,18 +109,20 @@ class CreateRun extends Component {
         fdata.append('appFileType', this.state.appFileType);
         fdata.append('testPackageFileType', this.state.testPackageFileType);
         fdata.append("testerId", sessionStorage.getItem("id"));
-        fdata.append("projectId", params.id)
+        fdata.append("projectId", params.projectId)
         let files = [];
         files.push(this.state.appFile)
         files.push(this.state.testFile)
         fdata.append("files", this.state.appFile);
         fdata.append("files", this.state.testFile);
+        fdata.append("allocationId", this.state.allocationId);
+        fdata.append("allocationType", this.state.allocationType);
         const config = {
             headers: {
                 'content-type': 'multipart/form-data'
             }
         };
-        let url = process.env.REACT_APP_BACKEND_URL + '/projects/' + params.id + '/createrun';
+        let url = process.env.REACT_APP_BACKEND_URL + '/projects/' + params.projectId + '/createrun';
         axios.post(url, fdata, config)
             .then(response => {
                 if (response.status === 200) {
@@ -172,7 +185,7 @@ class CreateRun extends Component {
     render() {
         const { match: { params } } = this.props;
         let redirectVar = null
-        if (this.state.scheduleStatus == true) redirectVar = <Redirect to={"/project/" + params.id + '/tests'} />
+        if (this.state.scheduleStatus == true) redirectVar = <Redirect to={"/project/" + params.projectId + '/tests'} />
         return (
             <div className="container" style={{ width: "80%", textAlign: "center", backgroundColor: "white", marginTop: "7px", paddingBottom: "15px", boxShadow: "0 2px 5px rgba(0,0,0,0.3)", borderRadius: "3px" }}>
                 <Loading loading={this.state.loading} loadingText={this.state.loadingText} />
@@ -220,7 +233,7 @@ class CreateRun extends Component {
                             />
                         </div>
                     </div>
-                    <div className="row" style={{ marginTop: "10px" }}>
+                    {/* <div className="row" style={{ marginTop: "10px" }}>
                         <div class="col-md-2"></div>
                         <div class="col-md-2" style={{ padding: "0px", textAlign: "right" }}>
                             <label style={{ lineHeight: "45px", padding: "0px" }}>Operating System</label>
@@ -270,7 +283,7 @@ class CreateRun extends Component {
                         value="devices"
                         checked={this.state.allDevices}
                     />
-                    <label>Select all Devices</label>
+                    <label>Select all Devices</label> */}
                     <div className="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-2" style={{ padding: "0px", textAlign: "right" }}>

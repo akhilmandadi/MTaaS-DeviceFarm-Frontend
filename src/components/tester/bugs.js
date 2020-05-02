@@ -28,8 +28,8 @@ class Bugs extends Component {
     }
 
     updateProjects = () => {
-        const { match: { params } } = this.props;
-        let url = process.env.REACT_APP_BACKEND_URL + '/project/' + params.id + '/bugs';
+        const { project } = this.props;
+        let url = process.env.REACT_APP_BACKEND_URL + '/project/' + project._id + '/bugs';
         axios.defaults.withCredentials = true;
         axios.get(url)
             .then(response => {
@@ -70,11 +70,11 @@ class Bugs extends Component {
     }
 
     render() {
-        const { match: { params } } = this.props;
+        const {  project } = this.props;
         let errorBanner = null;
         if (this.state.bugs.length === 0) errorBanner = (<b>No Bugs Found for this project</b>)
         let createDialog = null;
-        if (this.state.enableCreate) createDialog = (<CreateBug id={params.id} toggleCreate={this.toggleCreate} enableCreate={this.state.enableCreate} updateProjects={this.updateProjects} />)
+        if (this.state.enableCreate) createDialog = (<CreateBug id={project._id} toggleCreate={this.toggleCreate} enableCreate={this.state.enableCreate} updateProjects={this.updateProjects} />)
         else createDialog = null;
         return (
             <div className="container" style={{ width: "80%", align: "center", marginTop: "20px" }}>
@@ -83,10 +83,6 @@ class Bugs extends Component {
                     <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "white" }} onClick={this.toggleCreate} >
                         <AddIcon /><b style={{ fontSize: "10px" }}>Create New Bug</b>
                     </Fab>
-                    <Link to={{ pathname: `/project/${params.id}/dashboard` }} 
-                    style={{ textDecoration: "underline", marginLeft:"20px" }}>
-                        <b>Back to Project Dashboard</b>
-                    </Link>
                     <br /><br />
                 </div>
                 <div className="row">

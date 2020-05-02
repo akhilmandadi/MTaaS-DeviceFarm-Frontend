@@ -7,7 +7,10 @@ function ShowPreBookDevices(props) {
   let [devicesResp,setdevicesResp] = useState({show: false, devices: null});
   if(devicesResp.show && !devicesResp.devices){
     let url = `${process.env.REACT_APP_BACKEND_URL}/devices/prebook`
-    Axios.get(url).then(resp =>{
+    let params = {
+      deviceType: 'real'
+    };
+    Axios.get(url,{params: params}).then(resp =>{
       if(resp.status === 200 && resp.data.devices){
         setdevicesResp({show: true, devices: resp.data.devices})
       }

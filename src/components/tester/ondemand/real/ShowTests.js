@@ -47,7 +47,7 @@ function ShowTests(props) {
   let createNewTestTag = null;
   let isActive = qs.parse(props.location.search, { ignoreQueryPrefix: true }).isActive;
   if(isActive === 'true'){
-    createNewTestTag = <Link to={`/tester/${testerId}/project/${projectId}/allocation/${allocationId}/tests/create`}><Button variant='primary'>Create New Test</Button></Link>
+    createNewTestTag = <Link to={`/tester/${testerId}/project/${projectId}/allocation/${allocationId}/tests/ondemand/create`}><Button variant='primary'>Create New Test</Button></Link>
   }
   return (
     <div className="container" style={{ width: "80%", align: "center", marginTop: "20px" }}>

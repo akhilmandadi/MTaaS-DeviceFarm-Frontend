@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Modal, Table, Form, Checkbox, Alert } from 'react-bootstrap';
 import Axios from 'axios';
+import Loading from '../../../loading';
 
 function SelectOnDemandDevice(props) {
   let [errorMsg, setErrorMsg] = useState(null);
+  let [loading,setLoading] = useState({status: false,text: ''});
   let devices = props.devices || [];
   let availabeDeviceTag = null;
   if(devices === null){
@@ -15,6 +17,7 @@ function SelectOnDemandDevice(props) {
   }
   let handleSubmit = (e) =>{
     e.preventDefault();
+    setLoading({status: true,text: 'Initializing a remote instance!!'});
     let form = e.currentTarget;
     let devices = Array.from(form.selectedDevices)
     .filter(device => device.checked)
@@ -38,6 +41,7 @@ function SelectOnDemandDevice(props) {
   }
   return (
     <Form onSubmit={handleSubmit}>
+      <Loading loading={loading.status} loadingText={loading.text} />
       {errorMsg}
     <Table striped bordered hover>
       <thead>

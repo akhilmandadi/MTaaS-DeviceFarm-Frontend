@@ -83,8 +83,8 @@ class Tests extends Component {
             loading: true,
             loadingText: "Fetching tests!"
         })
-        const { match: { params } } = this.props;
-        let url = process.env.REACT_APP_BACKEND_URL + '/project/' + params.id + '/tests';
+        const { project } = this.props;
+        let url = process.env.REACT_APP_BACKEND_URL + '/project/' + project._id + '/tests';
         axios.defaults.withCredentials = true;
         axios.get(url)
             .then(response => {

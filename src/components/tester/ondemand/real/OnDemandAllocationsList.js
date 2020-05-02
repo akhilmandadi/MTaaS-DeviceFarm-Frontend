@@ -24,7 +24,7 @@ function OnDemandAllocationsList(props) {
         <td>OS Type</td>
         <td>OS Version</td>
         <td>Allocation Start Time</td>
-        <td>Allocation Start Time</td>
+        <td>Allocation End Time</td>
       </tr>
     </thead>
     <tbody>
@@ -36,7 +36,11 @@ function OnDemandAllocationsList(props) {
           deallocationTag = <Button variant='primary' onClick={e =>handleDeallocate(allocation._id)}>Deallocate</Button>
         }
         return <tr>
-          <td ><Link to={`/tester/${allocation.tester}/project/${allocation.project._id}/allocation/${allocation._id}/tests?isActive=${allocation.ended === undefined}`}>{allocation.device.deviceId}</Link></td>
+          <td >
+            {allocation.ended === undefined ? (<Link to={`/tester/${allocation.tester}/project/${allocation.project._id}/allocation/${allocation._id}/tests/ondemand/create`}><Button variant='primary'>Create Test Run</Button></Link>) :
+            (allocation.device.deviceId)
+            }
+          </td>
           <td >{allocation.device.name}</td>
           <td >{allocation.device.deviceType}</td>
           <td >{allocation.device.osType}</td>
