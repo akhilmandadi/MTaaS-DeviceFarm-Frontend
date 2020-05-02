@@ -13,13 +13,14 @@ import ManagerProjectDashboard from '../components/manager/projectDashboard';
 import Bugs from '../components/tester/bugs';
 import AdminProjects from '../components/admin/projects';
 import AdminUsers from '../components/admin/users';
-import CreateRun from '../components/tester/CreateRun';
+import CreateRun from '../components/tester/ondemand/real/CreateRun';
 import ViewTests from '../components/tester/tests';
 import TesterOnDemandAllocationReal from '../components/tester/ondemand/real/OnDemandAllocations';
 import TesterPreBookAllocationsReal from '../components/tester/prebooking/real/PreBookAllocations';
 import TesterOnDemandAllocationEmulator from '../components/tester/ondemand/emulator/OnDemandAllocations';
 import TesterPreBookAllocationsEmulator from '../components/tester/prebooking/emulator/PreBookAllocations';
 import ShowOnDemandAlloctionEmulator from '../components/tester/ondemand/emulator/ShowOnDemandAllocation';
+
 
 
 import ShowTests from '../components/tester/ondemand/real/ShowTests';
@@ -42,8 +43,6 @@ class Routes extends Component {
         <Route path="/tester/projects" exact component={TesterProjects} exact />
         <Route path="/project/:id/dashboard" exact component={TesterProjectDashboard} />
         <Route path="/analytics" exact component={Analytics} />
-        <Route path="/tester/:testerId/project/:projectId/allocation/:allocationId/tests" exact component={ShowTests} />
-        <Route path="/tester/:testerId/project/:projectId/allocation/:allocationId/tests/create" exact component={CreateTest} />
         <Route path="/manager/project/:id/dashboard" exact component={ManagerProjectDashboard} />
         <Route path="/tester/:testerId/project/:id/bugs" exact component={Bugs} />
         <Route path="/admin/projects" exact component={AdminProjects} />
@@ -59,7 +58,7 @@ class Routes extends Component {
         <Route path="/tester/:testerId/project/:projectId/prebooking_allocations/emulator" exact component={TesterPreBookAllocationsEmulator} />
         <Route path="/tester/:testerId/project/:projectId/allocation/:allocationId/emulator" exact component={ShowOnDemandAlloctionEmulator} />
         <Route path="/tester/:testerId/project/:projectId/allocation/:allocationId/tests" exact component={ShowTests} />
-        <Route path="/tester/:testerId/project/:projectId/allocation/:allocationId/tests/create" exact component={CreateTest} />
+        <Route path="/tester/:testerId/project/:projectId/allocation/:allocationId/tests/:allocationType/create" exact component={CreateRun} />
       </div>
     );
   }

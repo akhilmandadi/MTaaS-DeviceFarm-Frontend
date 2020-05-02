@@ -22,10 +22,14 @@ function PreBookFutureAllocations(props) {
       {allocations.map( allocation => {
         return <tr>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <td >{allocation.device.deviceId}</td>
 =======
           <td ><Link to={`/tester/${allocation.tester}/project/${allocation.project._id}/allocation/${allocation._id}/tests?isActive=false`}>{allocation.device.deviceId}</Link></td>
 >>>>>>> ondemand prebooking real and emulator
+=======
+          <td >{allocation.device.deviceId}</td>
+>>>>>>> tester view changes
           <td >{allocation.device.name}</td>
           <td >{allocation.device.deviceType}</td>
           <td >{allocation.device.osType}</td>
