@@ -4,6 +4,7 @@ import SignIn from '../components/signin';
 import SignUp from '../components/signup';
 import NavBar from '../components/navbar';
 import ManagerProjects from '../components/manager/projects';
+import ManagerBilling from '../components/manager/billing';
 import TestersOfProject from '../components/manager/testers';
 import TesterProjects from '../components/tester/projects';
 import TesterProjectDashboard from '../components/tester/testerProjectDashboard';
@@ -27,6 +28,7 @@ class Routes extends Component {
         <Route path="/signup" component={SignUp} exact />
 
         <Route path="/manager/projects" exact component={ManagerProjects} />
+        <Route path="/manager/billing" exact component={ManagerBilling} />
         <Route path="/project/:id/testers" exact component={TestersOfProject} />
 
         <Route path="/tester/projects" exact component={TesterProjects} exact />

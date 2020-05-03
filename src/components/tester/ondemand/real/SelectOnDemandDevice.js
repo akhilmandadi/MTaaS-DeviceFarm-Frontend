@@ -31,17 +31,12 @@ function SelectOnDemandDevice(props) {
       arn: selectedDevice.split('|')[1],
       allocationType: 'ondemand'
     }
-<<<<<<< HEAD
 <<<<<<< HEAD:src/components/tester/emulators/SelectOnDemandDevice.js
     let url = `${process.env.REACT_APP_BACKEND_URL}/remoteAccessSession`;
     setLoading({status: true,text: 'Initializing a remote instance!!'});
 =======
     let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/ondemand/real`;
 >>>>>>> billing:src/components/tester/ondemand/real/SelectOnDemandDevice.js
-=======
-    let url = `${process.env.REACT_APP_BACKEND_URL}/remoteAccessSession`;
-    setLoading({status: true,text: 'Initializing a remote instance!!'});
->>>>>>> billing
     Axios.post(url,formData,{validateStatus: false}).then(resp => {
       if(resp.status===200 && resp.data){
         setRedirectTag(<Redirect to={`/project/${props.projectId}/remoteAccessSession/${resp.data.remoteSession._id}`} />);
