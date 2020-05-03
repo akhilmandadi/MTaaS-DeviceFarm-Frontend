@@ -77,7 +77,6 @@ function RemoteAccessSession(props) {
 
   const  handleStopSession = () =>{
     let url = `${process.env.REACT_APP_BACKEND_URL}/remoteAccessSession/${id}/stop`;
-    debugger
     if(!remoteSessionResp.remoteSession.sessionDetails.endpoint){
       setremoteSessionResp({status: 'session closed',remoteSession: remoteSessionResp});
     }else {

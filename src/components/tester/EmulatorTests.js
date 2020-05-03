@@ -215,7 +215,7 @@ class EmulatorTests extends Component {
                                                 <TableCell style={{minWidth: 100, fontSize: "12px", textAlign: "center" }}>
                                                     {row.sessionDetails.status !== 'RUNNING' ? (row.sessionDetails.device.name)
                                                     :
-                                                    (<Link to={`/remoteAccessSession/${row._id}`}>{row.sessionDetails.device.name}</Link>)
+                                                    (<Link to={`/project/${row.project}/remoteAccessSession/${row._id}`}>{row.sessionDetails.device.name}</Link>)
                                                     }
                                                 </TableCell>
                                                 <TableCell style={{minWidth: 100, fontSize: "12px", textAlign: "center" }}>

@@ -183,6 +183,7 @@ class AllocateDevice extends Component {
         })
     }
     validateDetails = (event) => {
+        debugger
         if (this.state.startTime !== "" && this.state.startDate !== "" && this.state.endTime !== "" && this.state.endDate !== "") {
             return false
         }

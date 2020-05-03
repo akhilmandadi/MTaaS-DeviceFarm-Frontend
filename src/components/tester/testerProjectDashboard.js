@@ -5,8 +5,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Home from './home';
 import Bugs from './bugs';
-import RealDevices from './devices';
-import Emulators from './emulators';
+import RealDevices from './realdevices/SelectRun';
+import Emulators from './emulators/SelectEmulators';
 import '../../App.css';
 import AllTests from './AllTests';
 

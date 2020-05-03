@@ -18,16 +18,17 @@ function DeviceIcons(props) {
       return false;
     }
     let formData = {
-      tester: allocation.tester,
-      project: allocation.project._id,
-      device: allocation.device._id,
+      tester: sessionStorage.getItem('id'),
+      project: allocation.projectId,
+      name: allocation.name,
+      arn: allocation.arn,
       allocationType: 'prebook'
     }
     let url = `${process.env.REACT_APP_BACKEND_URL}/remoteAccessSession`;
     setLoading({status: true,text: 'Initializing a remote instance!!'});
     Axios.post(url,formData,{validateStatus: false}).then(resp => {
       if(resp.status===200 && resp.data){
-        setRedirectTag(<Redirect to={`/project/${allocation.project._id}/remoteAccessSession/${resp.data.remoteSession._id}`} />);
+        setRedirectTag(<Redirect to={`/project/${allocation.projectId}/remoteAccessSession/${resp.data.remoteSession._id}`} />);
       }else{
         setErrorMsg(<Alert variant='danger'>{resp.data.error || 'Something went wrong, please try again later'}</Alert>);
         setLoading({status: false, text: null});
@@ -45,7 +46,7 @@ function DeviceIcons(props) {
               <Card onClick={e => createRemoteSession(allocation)} className="cardBox" style={{ backgroundColor: "#b8babf" }}>
                   <CardContent className="cardBoxColor" style={{ paddingBottom: "10px", paddingTop: "10px" }}>
                       <div>
-                          {allocation.device.osType === 'Android' ? (
+                          {allocation.osType === 'Android' ? (
                             <PhoneAndroidIcon style={{ fontSize: 85, color: "#081d40" }} />
                           ) : (
                             <PhoneIphoneIcon style={{ fontSize: 85, color: "#081d40" }} />
@@ -53,15 +54,15 @@ function DeviceIcons(props) {
                           
                       </div>
                       <div style={{ fontSize: "14px", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
-                          <h4>{allocation.device.name}</h4>
+                          <h4>{allocation.name}</h4>
                           <div class="row" style={{ paddingLeft: "0px" }}>
                               <Typography color="" variant="h6" style={{ display: "inline" }}><span class="glyphicon glyphicon-time"></span>
-                                  &nbsp;{new Date(allocation.started).toLocaleString('en-US')}
+                                  &nbsp;{new Date(allocation.start_time).toLocaleString('en-US')}
                               </Typography>
                           </div>
                           <div class="row">
                           <Typography color="" variant="h6" style={{ display: "inline" }}><span class="glyphicon glyphicon-time"></span>
-                                  &nbsp;{new Date(allocation.ended).toLocaleString('en-US')}
+                                  &nbsp;{new Date(allocation.end_time).toLocaleString('en-US')}
                               </Typography>
                           </div>
                       </div>

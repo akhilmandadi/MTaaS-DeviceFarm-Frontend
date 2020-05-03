@@ -27,7 +27,8 @@ function SelectOnDemandDevice(props) {
     let formData = {
       tester: sessionStorage.getItem('id'),
       project: props.projectId,
-      device: selectedDevice,
+      name: selectedDevice.split('|')[0],
+      arn: selectedDevice.split('|')[1],
       allocationType: 'ondemand'
     }
     let url = `${process.env.REACT_APP_BACKEND_URL}/remoteAccessSession`;
@@ -59,7 +60,7 @@ function SelectOnDemandDevice(props) {
       <tbody>
           {devices.map(device => {
             return  <tr>
-              <td><Radio type='checkbox' name='selectedDevice' value={device._id}></Radio></td>
+              <td><Radio type='checkbox' name='selectedDevice' value={`${device.name}|${device.arn}`}></Radio></td>
               <td>{device.name}</td>
               <td>{device.deviceType}</td>
               <td>{device.osType}</td>

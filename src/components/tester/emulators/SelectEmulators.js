@@ -8,8 +8,7 @@ function SelectEmulators(props) {
   let {testerId,projectId} = props;
   let [allocationResp,setAllocations] = useState({status: 'loading',allocations: {},childMsg:null});
   let params = {
-    tester: testerId,
-    project: projectId,
+    projectId: projectId,
     deviceType: 'emulator',
   }
   let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/prebook`;
