@@ -57,10 +57,9 @@
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1; 
-}
- 
+} 
 ::-webkit-scrollbar-thumb {
-  background: rgb(167, 167, 167); 
+  background: rgb(250, 146, 146); 
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -69,7 +68,3 @@
 #pre-booking .modal-dialog {
   min-width: 1200px !important
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> ondemand prebooking real and emulator
