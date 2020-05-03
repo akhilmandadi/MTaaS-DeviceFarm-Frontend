@@ -6,11 +6,11 @@ import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import Typography from '@material-ui/core/Typography';
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import AllocateDevice from './allocateDevice';
+import AllocateDevice from './allocateEmulator';
 import axios from 'axios';
 import moment from "moment";
 
-class Devices extends Component {
+class Emulators extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +26,7 @@ class Devices extends Component {
     }
 
     fetchDevices = () => {
-        let url = process.env.REACT_APP_BACKEND_URL + '/devices/project/' + this.props.project._id + '/devices';
+        let url = process.env.REACT_APP_BACKEND_URL + '/devices/project/' + this.props.project._id + '/emulators';
         axios.defaults.withCredentials = true;
         axios.get(url)
             .then(response => {
@@ -71,7 +71,7 @@ class Devices extends Component {
             allocateButton = (
                 <div className="row" style={{ textAlign: "left" }}>
                     <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "white" }} onClick={this.toggleCreate} >
-                        <AddIcon /><b style={{ fontSize: "10px" }}>Allocate a Device</b>
+                        <AddIcon /><b style={{ fontSize: "10px" }}>Allocate a Emulator</b>
                     </Fab>
                     <br /><br />
                 </div>
@@ -133,4 +133,4 @@ class Devices extends Component {
     }
 }
 
-export default Devices;
+export default Emulators;

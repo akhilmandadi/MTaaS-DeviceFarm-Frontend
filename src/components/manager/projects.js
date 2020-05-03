@@ -10,6 +10,9 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import { Link } from 'react-router-dom';
 
 class Projects extends Component {
@@ -20,7 +23,8 @@ class Projects extends Component {
             page: 0,
             rowsPerPage: 10,
             enableCreate: false,
-            jobId: ""
+            jobId: "",
+            projectFilter: []
         }
         this.viewApplicants = this.viewApplicants.bind(this);
         this.toggleCreate = this.toggleCreate.bind(this);
@@ -39,17 +43,20 @@ class Projects extends Component {
             .then(response => {
                 if (response.status === 200) {
                     this.setState({
-                        projects: response.data
+                        projects: response.data,
+                        projectFilter: response.data
                     })
                 } else {
                     this.setState({
-                        projects: []
+                        projects: [],
+                        projectFilter:[]
                     })
                 }
             })
             .catch((error) => {
                 this.setState({
-                    projects: []
+                    projects: [],
+                    projectFilter:[]
                 })
             });
     }
@@ -92,6 +99,18 @@ class Projects extends Component {
             });
     }
 
+    searchData = (event) => {
+        let filter = [];
+        this.state.projectFilter.map(project => {
+            if (project.name.toLowerCase().includes(event.target.value.toLowerCase())) {
+                filter.push(project)
+            }
+        })
+        this.setState({
+            projects: filter
+        })
+    }
+
     render() {
         const colors = ["#3c4f36", "#626e7b", "#254284", "teal", "#003300"]
         let createDialog = null;
@@ -100,50 +119,58 @@ class Projects extends Component {
         let errorBanner = null;
         if (this.state.projects.length === 0) errorBanner = (<b>No Projects Found</b>)
         return (
-            <div className="container" style={{ width: "85%", align: "center", marginTop: "10px" }}>
+            <div className="container" style={{ width: "80%", align: "center", marginTop: "10px" }}>
                 {createDialog}
                 <div className="row">
                     <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "white" }} onClick={this.toggleCreate} >
                         <AddIcon /><b style={{ fontSize: "10px" }}>Create New Project</b>
                     </Fab>
-                    <br /><br />
+                    <br />
                 </div>
-                <div className="row">
+                {/* <div class="input-group input-group-lg" style={{ marginBottom: "15px", boxShadow: "0 2px 2px rgba(0,0,0,0.3)" }}>
+                    <span class="input-group-addon" id="sizing-addon1">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </span>
+                    <input type="text" onChange={this.searchData} class="form-control" placeholder="Search Projects by Name" aria-describedby="sizing-addon1" />
+                </div> */}
+                <div className="row" style={{marginTop:"10px"}}>
                     {this.state.projects.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((project, index) => {
                         return (
-                            <div className="col-md-3" style={{ width: "260px", marginRight: "5px", marginTop: "5px", marginBottom: "15px", paddingLeft: "0px" }}>
-                                <Card className="cardBox">
-                                    <CardHeader style={{ backgroundColor: colors[index % 5] }}
-                                        avatar={
-                                            <div style={{ height: "100px" }}></div>
-                                        }
-                                        action={
-                                            <IconButton aria-label="settings" onClick={() => this.deleteProject(project._id)}>
-                                                <span title="Delete" class="glyphicon glyphicon-trash" style={{ fontSize: "16px", color: "red" }}></span>
-                                            </IconButton>
-                                        }
-                                    />
-                                    <Link to={{ pathname: '/manager/project/' + project._id + '/dashboard', project: project }} style={{ textDecoration: "none" }}>
-                                        <CardContent className="cardBoxColor" style={{ paddingBottom: "0px", paddingTop: "10px" }}>
-                                            <div title={project.name} style={{ fontSize: "16px", color: "#3c4f36", fontWeight: "600", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
-                                                {project.name}
-                                            </div>
-                                            <div style={{ fontSize: "14px", color: "#6c757c", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
-                                                No of Testers in Project: {project.testers.length}
-                                            </div>
-                                        </CardContent>
-                                        <CardActions disableSpacing style={{ paddingTop: "10px" }}>
+                            <Card style={{ padding: "10px", marginBottom: "4px" }}>
+                                <div className="row">
+                                    <div className="col-md-1">
+                                        <Avatar variant="square" style={{ width: "80px", height: "80px", margin: "10px", backgroundColor: "#4c9fb0" }} >
+                                            <h6><AccountTreeIcon style={{ fontSize: 75, color: "#000" }} /></h6>
+                                        </Avatar>
+                                    </div>
+                                    <div className="col-md-9" style={{ paddingLeft: "55px", textAlign: "left" }}>
+                                        <Link to={{ pathname: '/manager/project/' + project._id + '/dashboard', project: project }} >
+                                            <div className="row inline"><h4 style={{ marginBottom: "6px", paddingBottom: "0px" }}>{project.name}</h4></div>
+                                        </Link>
+                                        <div class="row">
+                                            <Typography color="" variant="h6" style={{ display: "inline" }}>
+                                                {project.description}
+                                            </Typography>
+                                        </div>
+                                        <div class="row" style={{ paddingLeft: "0px" }}>
+                                            <Typography color="" variant="h6" style={{ display: "inline" }}>
+                                                No of Testers: {project.testers.length}
+                                            </Typography>
+                                        </div>
+                                        <div class="row" style={{ paddingLeft: "0px" }}>
                                             <Link to={{ pathname: '/manager/project/' + project._id + '/dashboard', project: project }}
-                                                style={{ textDecoration: "none" }}>
-                                                <Button variant="outlined" color="primary" style={{ marginLeft: "8px", marginBottom: "5px " }}>
-                                                    View Project Details
-                                            </Button>
+                                                style={{ textDecoration: "underline", fontWeight: "500" }}>
+                                                View Project Details
                                             </Link>
-                                        </CardActions>
-                                    </Link>
-                                </Card>
-                            </div>
-
+                                        </div>
+                                    </div>
+                                    <div className="col-md-2">
+                                        <Button variant="outlined" color="secondary" onClick={() => this.updateProjectStatus(true, project._id)}>
+                                            <span title="Delete" class="glyphicon glyphicon-trash" style={{ fontSize: "16px", color: "red", marginRight: "5px" }}></span><b>Delete Project</b>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </Card>
                         );
                     })}
                 </div>

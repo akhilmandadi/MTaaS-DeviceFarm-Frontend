@@ -31,7 +31,8 @@ export default class Home extends Component {
         return (
             <div className="">
                 <div className="col-md-6">
-                    <h2 style={{ marginTop: "20px", marginBottom: "30px" }}>{this.props.project.name}</h2>
+                    <h2 style={{ marginTop: "20px", marginBottom: "10px" }}>{this.props.project.name}</h2>
+                    <h5 style={{ marginTop: "0px", marginBottom: "30px" }}>{this.props.project.description}</h5>
                     <h4 style={{ marginBottom: "10px", textDecoration: "underline" }}>Project Details</h4>
                     <table class="table table-striped table-dark" style={{ width: "350px", marginLeft: "120px" }}>
                         <tbody>
