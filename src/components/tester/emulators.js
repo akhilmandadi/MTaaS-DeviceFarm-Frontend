@@ -23,7 +23,7 @@ class Emulators extends Component {
     }
 
     fetchDevices = () => {
-        let url = process.env.REACT_APP_BACKEND_URL + '/devices/project/' + this.props.project._id + '/emulators';
+        let url = process.env.REACT_APP_BACKEND_URL + '/devices/project/' + this.props.projectId + '/emulators';
         axios.defaults.withCredentials = true;
         axios.get(url)
             .then(response => {
