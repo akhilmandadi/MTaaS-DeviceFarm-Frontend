@@ -12,7 +12,8 @@ class CreateProject extends Component {
         super(props);
         this.enableCreate = this.props.enableCreate;
         this.state = {
-            name: ""
+            name: "",
+            description: ""
         }
         this.handleCreateProjectClose = this.handleCreateProjectClose.bind(this)
         this.nameChangeHandler = this.nameChangeHandler.bind(this);
@@ -24,7 +25,8 @@ class CreateProject extends Component {
         event.preventDefault();
         let url = process.env.REACT_APP_BACKEND_URL + '/projects/' + sessionStorage.getItem("id");
         var data = {
-            "name": this.state.title
+            "name": this.state.title,
+            "description": this.state.description
         }
         axios.post(url, data)
             .then(response => {
@@ -43,6 +45,11 @@ class CreateProject extends Component {
             title: event.target.value
         })
     }
+    descriptionChangeHandler = (event) => {
+        this.setState({
+            description: event.target.value
+        })
+    }
     validateDetails = (event) => {
         if (this.state.title !== "") return false
         else return true
@@ -58,10 +65,12 @@ class CreateProject extends Component {
                     <DialogTitle id="form-dialog-title">Create New Project</DialogTitle>
                     <DialogContent>
                         <form>
+                            <b>Name</b>
                             <TextField
                                 autoFocus
                                 margin="dense"
                                 id="name"
+                                name="name"
                                 label="Name"
                                 type="text"
                                 fullWidth
@@ -69,6 +78,15 @@ class CreateProject extends Component {
                                 required
                                 autoComplete="off"
                                 onChange={this.nameChangeHandler}
+                            />
+                            <br/><br/>
+                            <b>Description</b>
+                            <textarea
+                                rows={4}
+                                name="description"
+                                id="description"
+                                style={{ width: "100%" }}
+                                onChange={this.descriptionChangeHandler}
                             />
                         </form>
                     </DialogContent>

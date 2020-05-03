@@ -10,6 +10,9 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import { Link } from 'react-router-dom';
 
 class Projects extends Component {
@@ -78,34 +81,37 @@ class Projects extends Component {
                 <div className="row">
                     {this.state.projects.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((project, index) => {
                         return (
-                            <Link to={{ pathname: '/project/' + project._id + '/dashboard', project: project }} style={{ textDecoration: "none" }}>
-                                <div title={"Go to Project "+project.name} className="col-md-3" style={{ width: "260px", marginRight: "5px", marginTop: "5px", marginBottom: "15px", paddingLeft: "0px" }}>
-                                    <Card className="cardBox">
-                                        <CardHeader style={{ backgroundColor: colors[index % 5] }}
-                                            avatar={
-                                                <div style={{ height: "100px" }}></div>
-                                            }
-                                            action={
-                                                <IconButton aria-label="settings">
-                                                </IconButton>
-                                            }
-                                        />
-                                        <CardContent className="cardBoxColor" style={{ paddingBottom: "0px", paddingTop: "10px" }}>
-                                            <div style={{ fontSize: "16px", color: "#3c4f36", fontWeight: "600", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
-                                                {project.name}
-                                            </div>
-                                            <div style={{ fontSize: "14px", color: "#6c757c", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
-                                                Manager: {project.managerId.name}
-                                            </div>
-                                            <div style={{ fontSize: "14px", color: "#6c757c", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
-                                                No of Testers in Project: {project.testers.length}
-                                            </div>
-                                        </CardContent>
-                                        <CardActions disableSpacing style={{ paddingTop: "10px" }}>
-                                        </CardActions>
-                                    </Card>
+                            <Card style={{ padding: "10px", marginBottom: "4px" }}>
+                                <div className="row">
+                                    <div className="col-md-1">
+                                        <Avatar variant="square" style={{ width: "80px", height: "80px", margin: "10px", backgroundColor: "#4c9fb0" }} >
+                                            <h6><AccountTreeIcon style={{ fontSize: 75, color: "#000" }} /></h6>
+                                        </Avatar>
+                                    </div>
+                                    <div className="col-md-9" style={{ paddingLeft: "55px", textAlign: "left" }}>
+                                        <Link to={{ pathname: '/project/' + project._id + '/dashboard', project: project }} >
+                                            <div className="row inline"><h4 style={{ marginBottom: "6px", paddingBottom: "0px" }}>{project.name}</h4></div>
+                                        </Link>
+                                        <div class="row">
+                                            <Typography color="" variant="h6" style={{ display: "inline" }}>
+                                                {project.description}
+                                            </Typography>
+                                        </div>
+                                        <div class="row" style={{ fontSize: "14px", color: "#6c757c", }}>
+                                            <b>Manager: {project.managerId.name}</b>
+                                        </div>
+                                        <div class="row" style={{ fontSize: "14px", color: "#6c757c", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>
+                                            No of Testers in Project: {project.testers.length}
+                                        </div>
+                                        <div class="row" style={{ paddingLeft: "0px" }}>
+                                            <Link to={{ pathname: '/project/' + project._id + '/dashboard', project: project }}
+                                                style={{ textDecoration: "underline", fontWeight: "500" }}>
+                                                View Project Details
+                                            </Link>
+                                        </div>
+                                    </div>
                                 </div>
-                            </Link>
+                            </Card>
                         );
                     })}
                 </div>
