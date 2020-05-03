@@ -4,13 +4,10 @@ import Card from '@material-ui/core/Card';
 import CardContent from "@material-ui/core/CardContent";
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import Typography from '@material-ui/core/Typography';
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import AllocateDevice from './allocateDevice';
 import axios from 'axios';
 import moment from "moment";
 
-class Devices extends Component {
+class Emulators extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +23,7 @@ class Devices extends Component {
     }
 
     fetchDevices = () => {
-        let url = process.env.REACT_APP_BACKEND_URL + '/devices/project/' + this.props.project._id + '/devices';
+        let url = process.env.REACT_APP_BACKEND_URL + '/devices/project/' + this.props.project._id + '/emulators';
         axios.defaults.withCredentials = true;
         axios.get(url)
             .then(response => {
@@ -63,28 +60,10 @@ class Devices extends Component {
     }
 
     render() {
-        let createDialog = null;
-        if (this.state.enableCreate) createDialog = (<AllocateDevice id={this.props.project._id} toggleCreate={this.toggleCreate} enableCreate={this.state.enableCreate} fetchDevices={this.fetchDevices} />)
-        else createDialog = null;
-        let allocateButton = null;
-        if (sessionStorage.getItem("persona") === "manager") {
-            allocateButton = (
-                <div className="row" style={{ textAlign: "left" }}>
-                    <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "white" }} onClick={this.toggleCreate} >
-                        <AddIcon /><b style={{ fontSize: "10px" }}>Allocate a Device</b>
-                    </Fab>
-                    <br /><br />
-                </div>
-            )
-        } else {
-            allocateButton = null;
-        }
         let errorBanner = null;
         if (this.state.devices.length === 0) errorBanner = (<b>No Emulators Currently Allocated for this project</b>)
         return (
             <div className="container" style={{ width: "85%", align: "center", marginTop: "20px" }}>
-                {createDialog}
-                {allocateButton}
                 <div className="row">
                     {this.state.devices.map((device, index) => {
                         return (
@@ -133,4 +112,4 @@ class Devices extends Component {
     }
 }
 
-export default Devices;
+export default Emulators;

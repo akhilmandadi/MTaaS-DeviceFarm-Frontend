@@ -8,7 +8,6 @@ import ManagerBilling from '../components/manager/billing';
 import TestersOfProject from '../components/manager/testers';
 import TesterProjects from '../components/tester/projects';
 import TesterProjectDashboard from '../components/tester/testerProjectDashboard';
-import Analytics from '../components/manager/analytics';
 import ManagerProjectDashboard from '../components/manager/projectDashboard';
 import Bugs from '../components/tester/bugs';
 import AdminProjects from '../components/admin/projects';
@@ -42,7 +41,6 @@ class Routes extends Component {
 
         <Route path="/tester/projects" exact component={TesterProjects} exact />
         <Route path="/project/:id/dashboard" exact component={TesterProjectDashboard} />
-        <Route path="/analytics" exact component={Analytics} />
         <Route path="/manager/project/:id/dashboard" exact component={ManagerProjectDashboard} />
         <Route path="/tester/:testerId/project/:id/bugs" exact component={Bugs} />
         <Route path="/admin/projects" exact component={AdminProjects} />

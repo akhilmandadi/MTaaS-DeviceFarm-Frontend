@@ -6,12 +6,9 @@ import Tab from '@material-ui/core/Tab';
 import Tests from './tests';
 import Home from './home';
 import Bugs from './bugs';
-<<<<<<< HEAD
 import Cost from './cost';
-=======
->>>>>>> tester view changes
-import RealDevices from './ondemand/real/OnDemandAllocations';
-import Emulators from './ondemand/emulator/OnDemandAllocations';
+import RealDevices from './devices';
+import Emulators from './emulators';
 import '../../App.css';
 
 class TesterProjectDashboard extends Component {
@@ -61,14 +58,11 @@ class TesterProjectDashboard extends Component {
     render() {
         let currentTab = null;
         if (this.state.tab === 0) currentTab = <Home project={this.state.project} getProjectInfo={this.getProjectInfo} />
-        if (this.state.tab === 1) currentTab = <RealDevices projectId={this.state.project._id} testerId={localStorage.getItem('id')} />
+        if (this.state.tab === 1) currentTab = <RealDevices project={this.state.project} projectId={this.state.project._id} testerId={localStorage.getItem('id')} />
         if (this.state.tab === 2) currentTab = <Emulators project={this.state.project} testerId={localStorage.getItem('id')} />
         if (this.state.tab === 3) currentTab = <Tests project={this.state.project} />
         if (this.state.tab === 4) currentTab = <Bugs project={this.state.project} getProjectInfo={this.getProjectInfo} />
-<<<<<<< HEAD
         if (this.state.tab === 5) currentTab = <Cost project={this.state.project} getProjectInfo={this.getProjectInfo} />
-=======
->>>>>>> tester view changes
         return (
             <div className="container" style={{ width: "100%", textAlign: "center", marginTop: "0px" }}>
                 <Tabs

@@ -31,19 +31,19 @@ class CreateRun extends Component {
                 'XCTEST', 'XCTEST_UI'],
             supportedDevices: [
                 [
-                    { name: 'Google Pixel 3 XL - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:E1F3149FDC33484D824BCFF66003E609' },
-                    { name: 'Google Pixel 2 XL - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:E64D26FE27644A39A4BCEF009CDD8645' },
+                    { name: 'Google Pixel 3 XL', arn: 'arn:aws:devicefarm:us-west-2::device:E1F3149FDC33484D824BCFF66003E609' },
+                    { name: 'Google Pixel 2', arn: 'arn:aws:devicefarm:us-west-2::device:58D6FB12B3624256AED26D0F940D4427' },
                     { name: 'Samsung Galaxy A50 - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:E4438F5D016544A8BB8557C459084F9D' },
                     { name: 'Samsung Galaxy S9+ (Unlocked) - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:8F772FF1E1AE4433B82286B1DA52FED8' },
-                    { name: 'Samsung Galaxy S9 (Unlocked) - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:CE68825ABE5A4740B56F10111FD47844' },
-                    { name: 'Samsung Galaxy Note 10 - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:851BA6E2A15E410FB93178EBC62F4B48' },
+                    { name: 'Samsung Galaxy S9 (Unlocked) - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:F27533F73A894EBDACC0E1B694288B77' },
+                    { name: 'Samsung Galaxy Note 9 - OS 8', arn: 'arn:aws:devicefarm:us-west-2::device:9A1CD324234F452F806C3A758762B755' },
                     { name: 'Samsung Galaxy A40 - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:DD61B8C65B1C46A9B3D5285A448BB4A4' },
                 ], [
-                    { name: 'Apple iPhone 7 Plus - OS 12', arn: 'arn:aws:devicefarm:us-west-2::device:51ED4AB875C543AC97E6F65F7473E7B8' },
+                    { name: 'Apple iPhone 7 Plus - OS 10', arn: 'arn:aws:devicefarm:us-west-2::device:5BF61FBF6FDA465EB4BE75C879918585' },
                     { name: 'Apple iPhone 8 - OS 12', arn: 'arn:aws:devicefarm:us-west-2::device:AF74786682D3407D89BD16557FEE97A9' },
                     { name: 'Apple iPhone X - OS 12', arn: 'arn:aws:devicefarm:us-west-2::device:D125AEEE8614463BAE106865CAF4470E' },
-                    { name: 'Apple iPhone 11 Pro - OS 13.1.3', arn: 'arn:aws:devicefarm:us-west-2::device:FB7DB406870A445A90958D233DF789BC' },
-                    { name: 'Apple iPhone 11 - OS 13.1.3', arn: 'arn:aws:devicefarm:us-west-2::device:8EFC9DF49F09451E831E93DA281DAF9F' }
+                    { name: 'Apple iPhone 11 Pro Max- OS 13.1.3', arn: 'arn:aws:devicefarm:us-west-2::device:8DCCC145A8A54191B61C6EF67F27F507' },
+                    { name: 'Apple iPhone 11 - OS 13.3.1', arn: 'arn:aws:devicefarm:us-west-2::device:A9AD8EC023394AC2BFC5148593BD6883' }
                 ]
             ],
             appFile: null,
