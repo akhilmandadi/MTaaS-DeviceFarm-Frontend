@@ -4,7 +4,12 @@ import TextField from '@material-ui/core/TextField';
 import { Redirect, useParams } from 'react-router';
 import Button from '@material-ui/core/Button';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Loading from '../../../loading';
+import Loading from '../../loading';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 class CreateRun extends Component {
     constructor(props) {
@@ -31,6 +36,7 @@ class CreateRun extends Component {
                 'XCTEST', 'XCTEST_UI'],
             supportedDevices: [
                 [
+<<<<<<< HEAD:src/components/tester/ondemand/real/CreateRun.js
                     { name: 'Google Pixel 3 XL', arn: 'arn:aws:devicefarm:us-west-2::device:E1F3149FDC33484D824BCFF66003E609' },
                     { name: 'Google Pixel 2', arn: 'arn:aws:devicefarm:us-west-2::device:58D6FB12B3624256AED26D0F940D4427' },
                     { name: 'Samsung Galaxy A50 - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:E4438F5D016544A8BB8557C459084F9D' },
@@ -44,8 +50,24 @@ class CreateRun extends Component {
                     { name: 'Apple iPhone X - OS 12', arn: 'arn:aws:devicefarm:us-west-2::device:D125AEEE8614463BAE106865CAF4470E' },
                     { name: 'Apple iPhone 11 Pro Max- OS 13.1.3', arn: 'arn:aws:devicefarm:us-west-2::device:8DCCC145A8A54191B61C6EF67F27F507' },
                     { name: 'Apple iPhone 11 - OS 13.3.1', arn: 'arn:aws:devicefarm:us-west-2::device:A9AD8EC023394AC2BFC5148593BD6883' }
+=======
+                    { name: 'Google Pixel 3 XL - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:E1F3149FDC33484D824BCFF66003E609' ,type: 'ondemand'},
+                    { name: 'Google Pixel 2 XL - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:E64D26FE27644A39A4BCEF009CDD8645' ,type: 'ondemand'},
+                    { name: 'Samsung Galaxy A50 - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:E4438F5D016544A8BB8557C459084F9D' ,type: 'ondemand'},
+                    { name: 'Samsung Galaxy S9+ (Unlocked) - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:8F772FF1E1AE4433B82286B1DA52FED8' ,type: 'ondemand'},
+                    { name: 'Samsung Galaxy S9 (Unlocked) - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:CE68825ABE5A4740B56F10111FD47844' ,type: 'ondemand'},
+                    { name: 'Samsung Galaxy Note 10 - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:851BA6E2A15E410FB93178EBC62F4B48' ,type: 'ondemand'},
+                    { name: 'Samsung Galaxy A40 - OS 9', arn: 'arn:aws:devicefarm:us-west-2::device:DD61B8C65B1C46A9B3D5285A448BB4A4' ,type: 'ondemand'},
+                ], [
+                    { name: 'Apple iPhone 7 Plus - OS 12', arn: 'arn:aws:devicefarm:us-west-2::device:51ED4AB875C543AC97E6F65F7473E7B8' ,type: 'ondemand'},
+                    { name: 'Apple iPhone 8 - OS 12', arn: 'arn:aws:devicefarm:us-west-2::device:AF74786682D3407D89BD16557FEE97A9' ,type: 'ondemand'},
+                    { name: 'Apple iPhone X - OS 12', arn: 'arn:aws:devicefarm:us-west-2::device:D125AEEE8614463BAE106865CAF4470E' ,type: 'ondemand'},
+                    { name: 'Apple iPhone 11 Pro - OS 13.1.3', arn: 'arn:aws:devicefarm:us-west-2::device:FB7DB406870A445A90958D233DF789BC' ,type: 'ondemand'},
+                    { name: 'Apple iPhone 11 - OS 13.1.3', arn: 'arn:aws:devicefarm:us-west-2::device:8EFC9DF49F09451E831E93DA281DAF9F' ,type: 'ondemand'}
+>>>>>>> changes to allocation real & emulator:src/components/tester/realdevices/CreateRun.js
                 ]
             ],
+            prebookedDevices: [],
             appFile: null,
             testFile: null,
             appFileType: 'ANDROID_APP',
@@ -55,25 +77,37 @@ class CreateRun extends Component {
             loadingText: "",
             scheduleStatus: false,
             allocationId: null,
-            allocationType: null,
+            allocationType: 'ondemand',
         }
-        this.onChange = this.onChange.bind(this);
+        this.onChangeDevicePool = this.onChangeDevicePool.bind(this);
+        this.onChangeTestName = this.onChangeTestName.bind(this);
         this.createRun = this.createRun.bind(this);
         this.handleDeviceChange = this.handleDeviceChange.bind(this);
         this.toggleAllDevices = this.toggleAllDevices.bind(this);
+        this.handleDeviceSelectionRadio = this.handleDeviceSelectionRadio.bind(this);
     }
 
     componentDidMount() {
         const { match: { params } } = this.props;
-        let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/${params.allocationType}/${params.allocationId}`
-        axios.get(url).then(resp => {
-            let allocation = resp.data;
+        let query = {
+            tester: params.testerId,
+            project: params.projectId,
+            deviceType: 'real'
+        }
+        let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/prebook`;
+        axios.get(url, {params: query}).then(resp => {
+            let currentAllocations = resp.data.allocations.currentAllocations || [];
+            currentAllocations.forEach(allocation => {
+                let osType = allocation.device.osType === 'Android' ? 0 : 1;
+                this.state.supportedDevices[osType].push({
+                    name: allocation.device.name, 
+                    arn: allocation.device.arn,
+                    type: 'prebook',
+                })
+            });
             this.setState({
-                currentDevices: this.state.supportedDevices[0],
-                allocationId: allocation._id,
-                selectedOS: allocation.device.osType,
-                selectedDevices: [{name: allocation.device.name, arn: allocation.device.arn}],
-                allocationType: params.allocationType === 'ondemand' ? 'OnDemandAlloation' : 'PreBookAllocation'
+                currentDevices: this.state.supportedDevices[0].filter(device => device.type === 'ondemand'),
+                supportedDevices: this.state.supportedDevices
             })
         });
     }
@@ -83,6 +117,30 @@ class CreateRun extends Component {
         this.setState({
             testType: e.target.value,
             testPackageFileType: this.state.testPackageFileTypes[idx]
+        })
+    }
+    handleDeviceSelectionRadio = (e) => {
+        let allocationType = e.target.value;
+        debugger;
+        this.setState({
+            allocationType: allocationType,
+            allDevices: false,
+            selectedOS: 'Android',
+            selectedDevices: [],
+            currentDevices: this.state.supportedDevices[0].filter(device => device.type === allocationType),
+            appFileType: this.state.appFileTypes[0]
+        })
+    }
+
+    onChangeTestName = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        }) 
+    }
+
+    onChangeDevicePool = e => {
+        this.setState({
+            [e.target.name]: e.target.value
         })
     }
 
@@ -103,16 +161,21 @@ class CreateRun extends Component {
         fdata.append('runName', this.state.runName);
         fdata.append('projectName', this.state.appType);
         fdata.append('selectedOS', this.state.selectedOS);
-        fdata.append('selectedDevices', JSON.stringify(this.state.selectedDevices));
+        fdata.append('selectedDevices', JSON.stringify(this.state.selectedDevices.map(device => {
+            return {
+                name: device.name,
+                arn: device.arn
+            }
+        })));
         fdata.append('devicepool', this.state.devicepool);
         fdata.append('testType', this.state.testType);
         fdata.append('appFileType', this.state.appFileType);
         fdata.append('testPackageFileType', this.state.testPackageFileType);
         fdata.append("testerId", sessionStorage.getItem("id"));
-        fdata.append("projectId", params.projectId)
+        fdata.append("projectId", params.projectId);
         let files = [];
-        files.push(this.state.appFile)
-        files.push(this.state.testFile)
+        files.push(this.state.appFile);
+        files.push(this.state.testFile);
         fdata.append("files", this.state.appFile);
         fdata.append("files", this.state.testFile);
         fdata.append("allocationId", this.state.allocationId);
@@ -165,7 +228,7 @@ class CreateRun extends Component {
             allDevices: false,
             selectedOS: e.target.value,
             selectedDevices: [],
-            currentDevices: e.target.value === "Android" ? this.state.supportedDevices[0] : this.state.supportedDevices[1],
+            currentDevices: e.target.value === "Android" ? this.state.supportedDevices[0].filter(device => device.type === this.state.allocationType) : this.state.supportedDevices[1].filter(device => device.type === this.state.allocationType),
             appFileType: e.target.value === "Android" ? this.state.appFileTypes[0] : this.state.appFileTypes[1]
         })
     }
@@ -209,7 +272,7 @@ class CreateRun extends Component {
                                 required
                                 autoComplete="off"
                                 style={{ width: "400px", backgroundColor: "white", float: "left" }}
-                                onChange={this.onChange}
+                                onChange={this.onChangeTestName}
                             />
                         </div>
                     </div>
@@ -233,7 +296,31 @@ class CreateRun extends Component {
                             />
                         </div>
                     </div>
-                    {/* <div className="row" style={{ marginTop: "10px" }}>
+                    <div className="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-2" style={{ padding: "0px", textAlign: "right" }}>
+                            <label style={{ lineHeight: "45px", padding: "0px" }}>Select devices from</label>
+                        </div>
+                        <div class="col-md-6" style={{ padding: "0px 30px 0px", 'text-align': 'left'}}>
+                            <FormControl component="fieldset">
+                            <RadioGroup row aria-label="position" name="position" defaultValue={this.state.allocationType} onChange={this.handleDeviceSelectionRadio}>
+                                <FormControlLabel
+                                value="ondemand"
+                                control={<Radio color="primary" />}
+                                label="On demand devices list"
+                                labelPlacement="right"
+                                />
+                                <FormControlLabel
+                                value="prebook"
+                                control={<Radio color="primary" />}
+                                label="Pre-Booked devices list"
+                                labelPlacement="right"
+                                />
+                            </RadioGroup>
+                            </FormControl>
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginTop: "10px" }}>
                         <div class="col-md-2"></div>
                         <div class="col-md-2" style={{ padding: "0px", textAlign: "right" }}>
                             <label style={{ lineHeight: "45px", padding: "0px" }}>Operating System</label>
@@ -283,7 +370,7 @@ class CreateRun extends Component {
                         value="devices"
                         checked={this.state.allDevices}
                     />
-                    <label>Select all Devices</label> */}
+                    <label>Select all Devices</label>
                     <div className="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-2" style={{ padding: "0px", textAlign: "right" }}>
@@ -300,7 +387,7 @@ class CreateRun extends Component {
                                 required
                                 autoComplete="off"
                                 style={{ width: "400px", backgroundColor: "white", float: "left" }}
-                                onChange={this.onChange}
+                                onChange={this.onChangeDevicePool}
                             />
                         </div>
                     </div>

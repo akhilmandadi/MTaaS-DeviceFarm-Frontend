@@ -17,6 +17,7 @@ import moment from 'moment';
 import axios from 'axios';
 import _ from 'lodash';
 import Loading from '../loading';
+import { Typography } from '@material-ui/core';
 
 const columns = [
     { id: 'runName', label: 'Name', minWidth: 170 },
@@ -159,10 +160,15 @@ class Tests extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <div class="" style={{ textAlign: "right", marginBottom: "10px" }}>
-                    <button type="button" class="btn btn-success" onClick={this.fetchRuns}>
-                        <span class="glyphicon glyphicon-refresh"></span>  Refresh Test Statuses
-                    </button>
+                <div className="row">
+                    <div className='col-md-6' style={{'text-align':'left', 'padding-left':'30px', 'padding-bottom': '10px'}}>
+                    <Typography variant="h3"><b>Run Details</b></Typography>
+                    </div>
+                    <div className='col-md-6' style={{'text-align':'right'}}>
+                        <button type="button" class="btn btn-success" onClick={this.fetchRuns}>
+                            <span class="glyphicon glyphicon-refresh"></span>  Refresh Test Statuses
+                        </button>
+                    </div>
                 </div>
                 <Loading loading={this.state.loading} loadingText={this.state.loadingText} />
                 <div>

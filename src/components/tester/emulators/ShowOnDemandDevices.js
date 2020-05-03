@@ -3,7 +3,7 @@ import { Button, Modal, Table, Form } from 'react-bootstrap';
 import Axios from 'axios';
 import SelectOnDemandDevice from './SelectOnDemandDevice';
 import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
+import Icon from '@material-ui/core/Icon';
 
 function ShowOnDemandDevices(props) {
   let [devicesResp,setdevicesResp] = useState({show: false, devices: null});
@@ -22,14 +22,14 @@ function ShowOnDemandDevices(props) {
   return (
     <div>
       <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "white" }} onClick={e => setdevicesResp({show: true,devices: devicesResp.devices})}>
-          <AddIcon /><b style={{ fontSize: "10px" }}>Allocate a New Device</b>
+        <Icon color="primary">add_circle</Icon><b style={{ fontSize: "10px" }}>&nbsp;Create a New Remote Session</b>
       </Fab>
       <Modal show={devicesResp.show} onHide={e => setdevicesResp({show: false,devices: devicesResp.devices})}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <SelectOnDemandDevice setAllocations={props.setAllocations}devices={devicesResp.devices} projectId={props.projectId}/>
+          <SelectOnDemandDevice testerId={props.testerId} devices={devicesResp.devices} projectId={props.projectId}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={e => setdevicesResp({show: false,devices: devicesResp.devices})}>
