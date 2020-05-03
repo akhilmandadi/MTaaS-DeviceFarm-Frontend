@@ -37,6 +37,11 @@
   }
 }
 
+.tabselect:hover {
+  background-color: #f5f6ff;
+  cursor: pointer;
+}
+
 .cardBox {
   box-shadow:0 2px 5px rgba(0,0,0,0.3)
 }
@@ -45,3 +50,23 @@
   box-shadow:0 4px 10px rgba(0,0,0,0.35);
   cursor: pointer;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: rgb(167, 167, 167); 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+#pre-booking .modal-dialog {
+  min-width: 1200px !important
+}
+
