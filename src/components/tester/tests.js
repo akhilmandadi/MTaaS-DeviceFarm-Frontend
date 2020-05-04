@@ -18,6 +18,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import Loading from '../loading';
 import { Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const columns = [
     { id: 'runName', label: 'Name', minWidth: 170 },
@@ -62,6 +63,8 @@ class Tests extends Component {
             loading: false,
             loadingText: "",
             testDetails: {},
+            logs: [],
+            screenshots: [],
             detailsPage: false,
             currentTest: ""
         }
@@ -125,7 +128,9 @@ class Tests extends Component {
                     this.setState({
                         loading: false,
                         loadingText: "",
-                        testDetails: response.data.run
+                        testDetails: response.data.run,
+                        logs: response.data.logs.artifacts,
+                        screenshots: response.data.screenshots.artifacts
                     })
                 }
             })
@@ -133,7 +138,9 @@ class Tests extends Component {
                 this.setState({
                     loading: false,
                     loadingText: "",
-                    testDetails: {}
+                    testDetails: {},
+                    logs: [],
+                    screenshots: []
                 })
             });
     }
@@ -151,16 +158,60 @@ class Tests extends Component {
     closeDetails = () => {
         this.setState({
             detailsPage: false,
-            testDetails: {}
+            testDetails: {},
+            logs: [],
+            screenshots: []
         })
     }
 
     render() {
         return (
-            <div class="container" style={{ width: "95%", marginTop: "20px" }} >
+            <div class="container" style={{ width: "95%", marginTop: "0px" }} >
                 <Dialog style={{ overflowX: "hidden !important" }} fullWidth open={this.state.detailsPage} onClose={this.closeDetails} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Run Details</DialogTitle>
+                    <DialogTitle id="form-dialog-title"><h3 style={{margin:"2px"}}>Run Details</h3></DialogTitle>
                     <DialogContent>
+                        <div className="row" style={{ border: "2px solid #dcdee0", padding: "5px 8px 15px", color: "#636363" }}>
+                            <div><h4>Test Artifacts</h4></div>
+                            <div class="col-md-6">
+                                <b>Log Files</b>
+                                <div>{this.state.logs.length === 0 ? "No Logs files generated" : ""}</div>
+                                {this.state.logs.map(log => {
+                                    return (
+                                        <div><span>{log.name} - </span>
+                                            <a href={log.url} target="_blank" rel="noopener noreferrer" download>Download</a>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <div class="col-md-6">
+                                <b>Run Screenshots</b>
+                                <div>{this.state.screenshots.length === 0 ? "No Screenshots generated" : ""}</div>
+                                {this.state.screenshots.map(log => {
+                                    return (
+                                        <div><span>{log.name} - </span>
+                                            <a href={log.url} target="_blank" rel="noopener noreferrer" download>Download</a>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                        <div className="row" style={{ border: "2px solid #dcdee0", padding: "5px 8px 15px", color: "#636363", marginTop:"5px" }}>
+                            <div><h4>Billing</h4></div>
+                            <div>
+                                <h5>
+                                    Total Charges for this test:&nbsp;
+                                {_.isUndefined(this.state.testDetails.deviceMinutes) ? "0" : this.state.testDetails.deviceMinutes.total * 0.5}
+                                $
+                                </h5>
+                            </div>
+                            <b>Devices Used</b>
+                            {_.isUndefined(this.state.testDetails.devices) ? "" : this.state.testDetails.devices.map(log => {
+                                return (
+                                    <div>{log.name}</div>
+                                )
+                            })}
+                        </div>
+                        <div><h4>Test Details</h4></div>
                         <ReactJson
                             src={this.state.testDetails}
                             collapsed={false}
