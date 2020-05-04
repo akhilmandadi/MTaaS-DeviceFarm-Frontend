@@ -42,6 +42,11 @@ const columns = [
         label: 'Result',
         minWidth: 170
     },
+    {
+        id: 'deviceMinutes',
+        label: 'Device Minutes',
+        minWidth: 100
+    },
     { id: 'view', label: '', minWidth: 50 },
     { id: 'stop', label: '', minWidth: 50 }
 ];
@@ -133,6 +138,16 @@ class Tests extends Component {
             });
     }
 
+    stopRun = (id) => {
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/run', { "id": id })
+            .then(response => {
+                if (response.status === 200) {
+                }
+            })
+            .catch((error) => {
+            });
+    }
+
     closeDetails = () => {
         this.setState({
             detailsPage: false,
@@ -146,12 +161,12 @@ class Tests extends Component {
                 <Dialog style={{ overflowX: "hidden !important" }} fullWidth open={this.state.detailsPage} onClose={this.closeDetails} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Run Details</DialogTitle>
                     <DialogContent>
-                        <ReactJson 
-                        src={this.state.testDetails} 
-                        collapsed={false}
-                        displayDataTypes={false}
-                        sortKeys={false}
-                        enableClipboard={false}
+                        <ReactJson
+                            src={this.state.testDetails}
+                            collapsed={false}
+                            displayDataTypes={false}
+                            sortKeys={false}
+                            enableClipboard={false}
                         />
                     </DialogContent>
                     <DialogActions>
@@ -161,10 +176,10 @@ class Tests extends Component {
                     </DialogActions>
                 </Dialog>
                 <div className="row">
-                    <div className='col-md-6' style={{'text-align':'left', 'padding-left':'30px', 'padding-bottom': '10px'}}>
-                    <Typography variant="h3"><b>Run Details</b></Typography>
+                    <div className='col-md-6' style={{ 'text-align': 'left', 'padding-left': '30px', 'padding-bottom': '10px' }}>
+                        <Typography variant="h3"><b>Run Details</b></Typography>
                     </div>
-                    <div className='col-md-6' style={{'text-align':'right'}}>
+                    <div className='col-md-6' style={{ 'text-align': 'right' }}>
                         <button type="button" class="btn btn-success" onClick={this.fetchRuns}>
                             <span class="glyphicon glyphicon-refresh"></span>  Refresh Test Statuses
                         </button>
@@ -197,7 +212,6 @@ class Tests extends Component {
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                                 {columns.map((column) => {
                                                     const value = row[column.id];
-                                                    console.log(column.id)
                                                     if (column.id === "view") {
                                                         return (
                                                             <TableCell key={column.id} align={column.align} style={{ textAlign: "center", fontSize: "10px" }}>
@@ -208,7 +222,7 @@ class Tests extends Component {
                                                     if (column.id === "stop") {
                                                         return (
                                                             <TableCell key={column.id} align={column.align} style={{ textAlign: "center", fontSize: "10px" }}>
-                                                                {(row.status === "COMPLETED" || row.status === "STOPPING") ? ("") : (<Button color="secondary">Stop</Button>)}
+                                                                {(row.status === "COMPLETED" || row.status === "STOPPING") ? ("") : (<Button color="secondary" onClick={() => this.stopRun(row.arn)}>Stop</Button>)}
                                                             </TableCell>
                                                         );
                                                     }
@@ -223,6 +237,13 @@ class Tests extends Component {
                                                         return (
                                                             <TableCell key={column.id} align={column.align} style={{ textAlign: "center", fontSize: "10px", color: "black" }}>
                                                                 {value.name}
+                                                            </TableCell>
+                                                        );
+                                                    }
+                                                    if (column.id === "deviceMinutes") {
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align} style={{ textAlign: "center", fontSize: "10px", color: "black" }}>
+                                                                {(_.isNull(value) || _.isUndefined(value)) ? "" : value.metered}
                                                             </TableCell>
                                                         );
                                                     }

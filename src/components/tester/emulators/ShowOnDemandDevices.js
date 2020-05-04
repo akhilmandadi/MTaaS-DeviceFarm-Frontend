@@ -26,7 +26,7 @@ function ShowOnDemandDevices(props) {
       </Fab>
       <Modal show={devicesResp.show} onHide={e => setdevicesResp({show: false,devices: devicesResp.devices})}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Devices</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <SelectOnDemandDevice testerId={props.testerId} devices={devicesResp.devices} projectId={props.projectId}/>

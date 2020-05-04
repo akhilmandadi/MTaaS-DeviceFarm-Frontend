@@ -18,6 +18,7 @@ function SelectRun(props) {
     Axios.defaults.withCredentials = true;
     Axios.get(url,{params: params}).then(resp =>{
       if(resp.status === 200 && resp.data.allocations){
+        console.log(resp.data.allocations)
         setAllocations({ status:'loaded', allocations: resp.data.allocations });
       }
     });
@@ -45,7 +46,7 @@ function SelectRun(props) {
     </div>
     <div className="row">
       <h2>Future Allocations</h2>
-      {(allocationResp.allocations.currentAllocations.length < 1) ? (
+      {(allocationResp.allocations.futureAllocations.length < 1) ? (
         <h4>No devices booked for future!</h4>
       ) 
       : 
