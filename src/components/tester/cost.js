@@ -21,7 +21,7 @@ const monthMapping = {
     '12': 'December'
 }
 
-const minCost = 5;
+const minCost = 0.5;
 
 export default class Cost extends Component {
     constructor(props) {
@@ -37,6 +37,7 @@ export default class Cost extends Component {
         this.getProjectAllocationInfo = this.getProjectAllocationInfo.bind(this);
         this.generateData = this.generateData.bind(this);
         this.fetchEmulatorSessions = this.fetchEmulatorSessions.bind(this);
+        this.fetchRuns = this.fetchRuns.bind(this);
     }
 
     componentDidMount() {
@@ -65,8 +66,8 @@ export default class Cost extends Component {
         })
     }
 
-    fetchRuns = () => {
-        new Promise((resolve, reject) => {
+    fetchRuns = async () => {
+        return await new Promise((resolve, reject) => {
             const { project } = this.props;
             let url = process.env.REACT_APP_BACKEND_URL + '/project/' + project._id + '/tests';
             axios.defaults.withCredentials = true;
@@ -84,12 +85,18 @@ export default class Cost extends Component {
 
 
     getProjectAllocationInfo = async () => {
-        let remoteSessions = await this.fetchEmulatorSessions().catch(e => console.error(e));
-        //let runs = await fetchRuns();
-        this.generateData(remoteSessions);
+        let remoteSessions = await this.fetchEmulatorSessions().catch(e => {
+            console.error(e)
+            return [];
+        });
+        let runs = await this.fetchRuns().catch(e => {
+            console.error(e)
+            return [];
+        });
+        this.generateData(runs, remoteSessions);
     }
 
-    generateData = (remoteSessions) => {
+    generateData = (runs, remoteSessions) => {
         let data = [
             {name:'January', RealDeviceMinutes: 0, EmulatorDeviceMinutes: 0, MonthlyCost:0},
             {name:'February', RealDeviceMinutes: 0, EmulatorDeviceMinutes: 0, MonthlyCost:0},
@@ -106,14 +113,28 @@ export default class Cost extends Component {
         ];
         let months = {};
         remoteSessions.forEach(session => {
-            let monthName = moment(session.sessionDetails.created).format("MMMM");
-            let monthNum = moment(session.sessionDetails.created).format("MM");
-            let dataMonth = data.find(record => record.name === monthName);
-            dataMonth.EmulatorDeviceMinutes +=  Math.round(parseFloat(session.sessionDetails.deviceMinutes.total) * 100)/100;
-            months[monthNum] = monthName;
+            let deviceMinutes = parseFloat((session.sessionDetails.deviceMinutes || {total: 0}).total)
+            if(deviceMinutes > 0){
+                let monthName = moment(session.sessionDetails.created).format("MMMM");
+                let monthNum = moment(session.sessionDetails.created).format("MM");
+                let dataMonth = data.find(record => record.name === monthName);
+                dataMonth.EmulatorDeviceMinutes +=  Math.round(deviceMinutes * 100)/100;
+                months[monthNum] = monthName;
+            }
         });
+        runs.forEach(run => {
+            let deviceMinutes = parseFloat((run.deviceMinutes || {total: 0}).total)
+            if(deviceMinutes > 0){
+                let monthName = moment(run.triggeredAt).format("MMMM");
+                let monthNum = moment(run.triggeredAt).format("MM");
+                let dataMonth = data.find(record => record.name === monthName);
+                dataMonth.RealDeviceMinutes +=  Math.round(deviceMinutes * 100)/100;
+                months[monthNum] = monthName;
+            }
+        });
+
         data.forEach(month => {
-            month.MonthlyCost = month.RealDeviceMinutes * 0.5 + month.EmulatorDeviceMinutes * 0.5;
+            month.MonthlyCost = month.RealDeviceMinutes * minCost + month.EmulatorDeviceMinutes * minCost;
             month.MonthlyCost = Math.round(month.MonthlyCost * 100)/100;
             month.EmulatorDeviceMinutes = Math.round(month.EmulatorDeviceMinutes * 100)/100;
             month.RealDeviceMinutes = Math.round(month.RealDeviceMinutes * 100)/100;
