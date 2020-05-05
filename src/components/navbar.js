@@ -22,24 +22,24 @@ class NavBar extends Component {
         if (sessionStorage.getItem("email") !== null && sessionStorage.getItem("persona") === "tester") {
             navBar = (
                 <ul class="nav navbar-nav navbar-right">
-                    <li><Link to="/tester/projects" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span><b>Projects</b></Link></li>
-                    <li><Link to="/signin" onClick={this.handleLogout} style={{ color: "black" }}><span class="glyphicon glyphicon-log-out"></span> <b>Logout</b></Link></li>
+                    <li><Link to="/tester/projects" style={{ color: "white" }}><span class="glyphicon glyphicon-"></span><b>Projects</b></Link></li>
+                    <li><Link to="/signin" onClick={this.handleLogout} style={{ color: "white" }}><span class="glyphicon glyphicon-log-out"></span> <b>Logout</b></Link></li>
                 </ul>
             )
         } else if (sessionStorage.getItem("email") !== null && sessionStorage.getItem("persona") === "manager") {
             navBar = (
                 <ul class="nav navbar-nav navbar-right" >
-                    <li><Link to="/manager/projects" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span><b>Projects</b></Link></li>
-                    <li><Link to="/manager/billing" style={{ color: "black" }}><span class="glyphicon glyphicon-"></span><b> Billing</b></Link></li>
-                    <li><Link to="/signin" onClick={this.handleLogout} style={{ color: "black" }}><span class="glyphicon glyphicon-log-out"></span><b> Logout</b></Link></li>
+                    <li><Link to="/manager/projects" style={{ color: "white" }}><span class="glyphicon glyphicon-"></span><b>Projects</b></Link></li>
+                    <li><Link to="/manager/billing" style={{ color: "white" }}><span class="glyphicon glyphicon-"></span><b> Billing</b></Link></li>
+                    <li><Link to="/signin" onClick={this.handleLogout} style={{ color: "white" }}><span class="glyphicon glyphicon-log-out"></span><b> Logout</b></Link></li>
                 </ul>
             )
         } else if (sessionStorage.getItem("email") !== null && sessionStorage.getItem("persona") === "admin") {
             navBar = (
                 <ul class="nav navbar-nav navbar-right">
-                    <li><Link to="/admin/projects" style={{ color: "black" }} ><span class="glyphicon glyphicon-"></span><b>Projects</b></Link></li>
-                    <li><Link to="/admin/users" style={{ color: "black" }} ><span class="glyphicon glyphicon-"></span><b>Users</b></Link></li>
-                    <li><Link to="/signin" onClick={this.handleLogout} style={{ color: "black" }}><span class="glyphicon glyphicon-log-out"></span> Logout</Link></li>
+                    <li><Link to="/admin/projects" style={{ color: "white" }} ><span class="glyphicon glyphicon-"></span><b>Projects</b></Link></li>
+                    <li><Link to="/admin/users" style={{ color: "white" }} ><span class="glyphicon glyphicon-"></span><b>Users</b></Link></li>
+                    <li><Link to="/signin" onClick={this.handleLogout} style={{ color: "white" }}><span class="glyphicon glyphicon-log-out"></span> Logout</Link></li>
                 </ul>
             )
         } else {
@@ -61,13 +61,15 @@ class NavBar extends Component {
         return (
             <div>
                 {redirectVar}
-                <nav class="navbar navbar-dark bg-dark" style={{ backgroundColor: "white", borderRadius: "0px", padding: "0px", margin: "0px", paddingTop: "3px", paddingBottom: "3px", boxShadow: "0 2px 5px rgba(0,0,0,0.3)" }}>
+                <nav class="navbar navbar-dark bg-dark" style={{ backgroundColor: "#3949ab", borderRadius: "0px", paddingLeft: "10%", paddingRight: "10%", margin: "0px", paddingTop: "3px", paddingBottom: "3px", boxShadow: "0 2px 5px rgba(0,0,0,0.3)" }}>
                     <div class="container-fluid">
-                        <div class="navbar-header" style={{ display: "inline" }}>
-                            <b class="navbar-brand" style={{ color: "black", display: "inline" }}>
-                                Mobile Testing as a Service (MTaaS)
-                            </b>
-                        </div>
+                        <Link to="/">
+                            <div class="navbar-header" style={{ display: "inline" }}>
+                                <b class="navbar-brand" style={{ color: "white", display: "inline" }}>
+                                    Mobile Testing as a Service (MTaaS)
+                                </b>
+                            </div>
+                        </Link>
                         <ul class="nav navbar-nav">
                         </ul>
                         {navBar}
