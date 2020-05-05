@@ -51,7 +51,11 @@ class NavBar extends Component {
             )
         }
         let redirectVar = null;
-        if (!sessionStorage.getItem("persona")) {
+        if (!sessionStorage.getItem("persona") && window.location.pathname === '/') {
+            return ( <Redirect to="/landing_page" />)
+        } else if(!sessionStorage.getItem("persona") && window.location.pathname.match(/^\/landing_page/)){
+            window.location.pathname = '/landing_page';
+        } else {
             redirectVar = <Redirect to="/signin" />
         }
         return (
