@@ -6,6 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import FaceIcon from '@material-ui/icons/Face';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 class Users extends Component {
     constructor(props) {
@@ -107,7 +108,9 @@ class Users extends Component {
                                             </Avatar>
                                         </div>
                                         <div className="col-md-8" style={{ paddingLeft: "55px", textAlign: "left" }}>
-                                            <div className="row inline"><h4 style={{ marginBottom: "6px", paddingBottom: "0px" }}>{user.name}</h4></div>
+                                            <div className="row inline"><h4 style={{ marginBottom: "6px", paddingBottom: "0px" }}>
+                                                <Link to={"/tester/" + user._id + "/profile"} >{user.name}</Link>
+                                            </h4></div>
                                             <div class="row">
                                                 <Typography color="" variant="h6" style={{ display: "inline" }}><span class="glyphicon glyphicon-envelope"></span>
                                                 &nbsp;Email: {user.email}
