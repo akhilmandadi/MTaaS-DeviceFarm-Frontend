@@ -8,16 +8,14 @@ import ManagerBilling from '../components/manager/billing';
 import TestersOfProject from '../components/manager/testers';
 import TesterProjects from '../components/tester/projects';
 import TesterProjectDashboard from '../components/tester/testerProjectDashboard';
-import Analytics from '../components/manager/analytics';
-import TesterOnDemandAllocation from '../components/tester/OnDemandAllocations';
-import ShowTests from '../components/tester/ShowTests';
-import CreateTest from '../components/tester/CreateTest';
 import ManagerProjectDashboard from '../components/manager/projectDashboard';
 import Bugs from '../components/tester/bugs';
 import AdminProjects from '../components/admin/projects';
 import AdminUsers from '../components/admin/users';
-import CreateRun from '../components/tester/CreateRun';
+import CreateRun from '../components/tester/realdevices/CreateRun';
+import RemoteAccessSession from '../components/tester/emulators/RemoteAccessSession';
 import ViewTests from '../components/tester/tests';
+import Profile from '../components/tester/profile';
 
 class Routes extends Component {
   render() {
@@ -33,10 +31,6 @@ class Routes extends Component {
 
         <Route path="/tester/projects" exact component={TesterProjects} exact />
         <Route path="/project/:id/dashboard" exact component={TesterProjectDashboard} />
-        <Route path="/analytics" exact component={Analytics} />
-        <Route path="/tester/:testerId/project/:projectId/ondemand_allocations" exact component={TesterOnDemandAllocation} />
-        <Route path="/tester/:testerId/project/:projectId/allocation/:allocationId/tests" exact component={ShowTests} />
-        <Route path="/tester/:testerId/project/:projectId/allocation/:allocationId/tests/create" exact component={CreateTest} />
         <Route path="/manager/project/:id/dashboard" exact component={ManagerProjectDashboard} />
         <Route path="/tester/:testerId/project/:id/bugs" exact component={Bugs} />
         <Route path="/admin/projects" exact component={AdminProjects} />
@@ -44,6 +38,9 @@ class Routes extends Component {
         <Route path="/admin/project/:id/dashboard" exact component={ManagerProjectDashboard} />
         <Route path="/project/:id/createRun" exact component={CreateRun} />
         <Route path="/project/:id/tests" exact component={ViewTests} />
+        <Route path="/project/:projectId/remoteAccessSession/:id" exact component={RemoteAccessSession} />
+        <Route path="/tester/:testerId/project/:projectId/real_devices/create_run" exact component={CreateRun} />
+        <Route path="/tester/:id/profile" exact component={Profile} />
       </div>
     );
   }

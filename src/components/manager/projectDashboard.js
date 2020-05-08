@@ -8,6 +8,8 @@ import Home from './home';
 import Bugs from './bugs';
 import Testers from './testers';
 import Devices from './devices';
+import Emulators from './emulators';
+import Billing from './projectBilling';
 import Cost from './cost';
 import '../../App.css';
 
@@ -60,9 +62,10 @@ class ProjectDashboard extends Component {
         if (this.state.tab === 0) currentTab = <Home project={this.state.project} getProjectInfo={this.getProjectInfo} />
         if (this.state.tab === 1) currentTab = <Testers project={this.state.project} getProjectInfo={this.getProjectInfo} />
         if (this.state.tab === 2) currentTab = <Devices project={this.state.project} getProjectInfo={this.getProjectInfo} />
-        if (this.state.tab === 3) currentTab = <Tests project={this.state.project} />
-        if (this.state.tab === 4) currentTab = <Bugs project={this.state.project} getProjectInfo={this.getProjectInfo} />
-        if (this.state.tab === 5) currentTab = <Cost project={this.state.project} getProjectInfo={this.getProjectInfo} />
+        if (this.state.tab === 3) currentTab = <Emulators project={this.state.project} getProjectInfo={this.getProjectInfo} />
+        if (this.state.tab === 4) currentTab = <Tests project={this.state.project} />
+        if (this.state.tab === 5) currentTab = <Bugs project={this.state.project} getProjectInfo={this.getProjectInfo} />
+        if (this.state.tab === 6) currentTab = <Billing project={this.state.project}  />
         return (
             <div className="container" style={{ width: "100%", textAlign: "center", marginTop: "0px" }}>
                 <Tabs
@@ -75,7 +78,8 @@ class ProjectDashboard extends Component {
                 >
                     <Tab className="tabselect" label="Home" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
                     <Tab className="tabselect" label="Testers" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
-                    <Tab className="tabselect" label="Devices" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
+                    <Tab className="tabselect" label="Real Devices" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
+                    <Tab className="tabselect" label="Emulators" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
                     <Tab className="tabselect" label="Tests" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
                     <Tab className="tabselect" label="Bugs" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
                     <Tab className="tabselect" label="Cost" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />

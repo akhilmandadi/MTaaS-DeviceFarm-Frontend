@@ -7,10 +7,20 @@ function ShowPreBookDevices(props) {
   let [devicesResp,setdevicesResp] = useState({show: false, devices: null});
   if(devicesResp.show && !devicesResp.devices){
     let url = `${process.env.REACT_APP_BACKEND_URL}/devices/prebook`
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> tester view changes
     let params = {
       deviceType: 'emulator'
     };
     Axios.get(url,{params: params}).then(resp =>{
+<<<<<<< HEAD
+=======
+    Axios.get(url).then(resp =>{
+>>>>>>> ondemand prebooking real and emulator
+=======
+>>>>>>> tester view changes
       if(resp.status === 200 && resp.data.devices){
         setdevicesResp({show: true, devices: resp.data.devices})
       }

@@ -77,18 +77,18 @@ class Bugs extends Component {
         if (this.state.enableCreate) createDialog = (<CreateBug id={project._id} toggleCreate={this.toggleCreate} enableCreate={this.state.enableCreate} updateProjects={this.updateProjects} />)
         else createDialog = null;
         return (
-            <div className="container" style={{ width: "80%", align: "center", marginTop: "20px" }}>
+            <div className="container" style={{ width: "80%", align: "center", marginTop: "10px" }}>
                 {createDialog}
-                <div className="row">
+                <div className="row" style={{textAlign:"left", marginBottom:"10px"}}>
                     <Fab variant="extended" style={{ alignContent: "right", backgroundColor: "white" }} onClick={this.toggleCreate} >
                         <AddIcon /><b style={{ fontSize: "10px" }}>Create New Bug</b>
                     </Fab>
-                    <br /><br />
+                    <br />
                 </div>
                 <div className="row">
                     {this.state.bugs.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map((bug, index) => {
                         return (
-                            <Card style={{ padding: "15px", marginBottom: "4px" }}>
+                            <Card style={{ padding: "5px", marginBottom: "4px" }}>
                                 <div className="row">
                                     <div className="col-md-1">
                                         <Avatar variant="square" style={{ width: "100px", height: "100px", margin: "10px", backgroundColor: "#ff4f4f" }} >

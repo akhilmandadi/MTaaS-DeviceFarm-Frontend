@@ -17,6 +17,8 @@ import moment from 'moment';
 import axios from 'axios';
 import _ from 'lodash';
 import Loading from '../loading';
+import { Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const columns = [
     { id: 'runName', label: 'Name', minWidth: 170 },
@@ -41,6 +43,11 @@ const columns = [
         label: 'Result',
         minWidth: 170
     },
+    {
+        id: 'deviceMinutes',
+        label: 'Device Minutes',
+        minWidth: 100
+    },
     { id: 'view', label: '', minWidth: 50 },
     { id: 'stop', label: '', minWidth: 50 }
 ];
@@ -56,6 +63,8 @@ class Tests extends Component {
             loading: false,
             loadingText: "",
             testDetails: {},
+            logs: [],
+            screenshots: [],
             detailsPage: false,
             currentTest: ""
         }
@@ -119,7 +128,9 @@ class Tests extends Component {
                     this.setState({
                         loading: false,
                         loadingText: "",
-                        testDetails: response.data.run
+                        testDetails: response.data.run,
+                        logs: response.data.logs.artifacts,
+                        screenshots: response.data.screenshots.artifacts
                     })
                 }
             })
@@ -127,30 +138,86 @@ class Tests extends Component {
                 this.setState({
                     loading: false,
                     loadingText: "",
-                    testDetails: {}
+                    testDetails: {},
+                    logs: [],
+                    screenshots: []
                 })
+            });
+    }
+
+    stopRun = (id) => {
+        axios.post(process.env.REACT_APP_BACKEND_URL + '/run', { "id": id })
+            .then(response => {
+                if (response.status === 200) {
+                }
+            })
+            .catch((error) => {
             });
     }
 
     closeDetails = () => {
         this.setState({
             detailsPage: false,
-            testDetails: {}
+            testDetails: {},
+            logs: [],
+            screenshots: []
         })
     }
 
     render() {
         return (
-            <div class="container" style={{ width: "95%", marginTop: "20px" }} >
+            <div class="container" style={{ width: "95%", marginTop: "0px" }} >
                 <Dialog style={{ overflowX: "hidden !important" }} fullWidth open={this.state.detailsPage} onClose={this.closeDetails} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Run Details</DialogTitle>
+                    <DialogTitle id="form-dialog-title"><h3 style={{margin:"2px"}}>Run Details</h3></DialogTitle>
                     <DialogContent>
-                        <ReactJson 
-                        src={this.state.testDetails} 
-                        collapsed={false}
-                        displayDataTypes={false}
-                        sortKeys={false}
-                        enableClipboard={false}
+                        <div className="row" style={{ border: "2px solid #dcdee0", padding: "5px 8px 15px", color: "#636363" }}>
+                            <div><h4>Test Artifacts</h4></div>
+                            <div class="col-md-6">
+                                <b>Log Files</b>
+                                <div>{this.state.logs.length === 0 ? "No Logs files generated" : ""}</div>
+                                {this.state.logs.map(log => {
+                                    return (
+                                        <div><span>{log.name} - </span>
+                                            <a href={log.url} target="_blank" rel="noopener noreferrer" download>Download</a>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                            <div class="col-md-6">
+                                <b>Run Screenshots</b>
+                                <div>{this.state.screenshots.length === 0 ? "No Screenshots generated" : ""}</div>
+                                {this.state.screenshots.map(log => {
+                                    return (
+                                        <div><span>{log.name} - </span>
+                                            <a href={log.url} target="_blank" rel="noopener noreferrer" download>Download</a>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                        <div className="row" style={{ border: "2px solid #dcdee0", padding: "5px 8px 15px", color: "#636363", marginTop:"5px" }}>
+                            <div><h4>Billing</h4></div>
+                            <div>
+                                <h5>
+                                    Total Charges for this test:&nbsp;
+                                {_.isUndefined(this.state.testDetails.deviceMinutes) ? "0" : this.state.testDetails.deviceMinutes.total * 0.5}
+                                $
+                                </h5>
+                            </div>
+                            <b>Devices Used</b>
+                            {_.isUndefined(this.state.testDetails.devices) ? "" : this.state.testDetails.devices.map(log => {
+                                return (
+                                    <div>{log.name}</div>
+                                )
+                            })}
+                        </div>
+                        <div><h4>Test Details</h4></div>
+                        <ReactJson
+                            src={this.state.testDetails}
+                            collapsed={false}
+                            displayDataTypes={false}
+                            sortKeys={false}
+                            enableClipboard={false}
                         />
                     </DialogContent>
                     <DialogActions>
@@ -159,10 +226,15 @@ class Tests extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <div class="" style={{ textAlign: "right", marginBottom: "10px" }}>
-                    <button type="button" class="btn btn-success" onClick={this.fetchRuns}>
-                        <span class="glyphicon glyphicon-refresh"></span>  Refresh Test Statuses
-                    </button>
+                <div className="row">
+                    <div className='col-md-6' style={{ 'text-align': 'left', 'padding-left': '30px', 'padding-bottom': '10px' }}>
+                        <Typography variant="h3"><b>Run Details</b></Typography>
+                    </div>
+                    <div className='col-md-6' style={{ 'text-align': 'right' }}>
+                        <button type="button" class="btn btn-success" onClick={this.fetchRuns}>
+                            <span class="glyphicon glyphicon-refresh"></span>  Refresh Test Statuses
+                        </button>
+                    </div>
                 </div>
                 <Loading loading={this.state.loading} loadingText={this.state.loadingText} />
                 <div>
@@ -191,7 +263,6 @@ class Tests extends Component {
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                                 {columns.map((column) => {
                                                     const value = row[column.id];
-                                                    console.log(column.id)
                                                     if (column.id === "view") {
                                                         return (
                                                             <TableCell key={column.id} align={column.align} style={{ textAlign: "center", fontSize: "10px" }}>
@@ -202,7 +273,7 @@ class Tests extends Component {
                                                     if (column.id === "stop") {
                                                         return (
                                                             <TableCell key={column.id} align={column.align} style={{ textAlign: "center", fontSize: "10px" }}>
-                                                                {(row.status === "COMPLETED" || row.status === "STOPPING") ? ("") : (<Button color="secondary">Stop</Button>)}
+                                                                {(row.status === "COMPLETED" || row.status === "STOPPING") ? ("") : (<Button color="secondary" onClick={() => this.stopRun(row.arn)}>Stop</Button>)}
                                                             </TableCell>
                                                         );
                                                     }
@@ -217,6 +288,13 @@ class Tests extends Component {
                                                         return (
                                                             <TableCell key={column.id} align={column.align} style={{ textAlign: "center", fontSize: "10px", color: "black" }}>
                                                                 {value.name}
+                                                            </TableCell>
+                                                        );
+                                                    }
+                                                    if (column.id === "deviceMinutes") {
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align} style={{ textAlign: "center", fontSize: "10px", color: "black" }}>
+                                                                {(_.isNull(value) || _.isUndefined(value)) ? "" : value.metered}
                                                             </TableCell>
                                                         );
                                                     }

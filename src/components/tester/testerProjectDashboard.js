@@ -3,13 +3,13 @@ import axios from 'axios';
 import _ from 'lodash';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Tests from './tests';
 import Home from './home';
 import Bugs from './bugs';
-import Cost from './cost';
-import RealDevices from './ondemand/real/OnDemandAllocations';
-import Emulators from './ondemand/emulator/OnDemandAllocations';
+import Analytics from './cost';
+import RealDevices from './realdevices/SelectRun';
+import Emulators from './emulators/SelectEmulators';
 import '../../App.css';
+import AllTests from './AllTests';
 
 class TesterProjectDashboard extends Component {
     constructor(props) {
@@ -58,11 +58,11 @@ class TesterProjectDashboard extends Component {
     render() {
         let currentTab = null;
         if (this.state.tab === 0) currentTab = <Home project={this.state.project} getProjectInfo={this.getProjectInfo} />
-        if (this.state.tab === 1) currentTab = <RealDevices projectId={this.state.project._id} testerId={localStorage.getItem('id')} />
-        if (this.state.tab === 2) currentTab = <Emulators project={this.state.project} testerId={localStorage.getItem('id')} />
-        if (this.state.tab === 3) currentTab = <Tests project={this.state.project} />
+        if (this.state.tab === 1) currentTab = <RealDevices projectId={this.state.project._id} testerId={sessionStorage.getItem('id')} />
+        if (this.state.tab === 2) currentTab = <Emulators projectId={this.state.project._id} testerId={sessionStorage.getItem('id')} />
+        if (this.state.tab === 3) currentTab = <AllTests project={this.state.project} tester={sessionStorage.getItem('id')}/>
         if (this.state.tab === 4) currentTab = <Bugs project={this.state.project} getProjectInfo={this.getProjectInfo} />
-        if (this.state.tab === 5) currentTab = <Cost project={this.state.project} getProjectInfo={this.getProjectInfo} />
+        if (this.state.tab === 5) currentTab = <Analytics project={this.state.project}/>
         return (
             <div className="container" style={{ width: "100%", textAlign: "center", marginTop: "0px" }}>
                 <Tabs
@@ -78,7 +78,7 @@ class TesterProjectDashboard extends Component {
                     <Tab className="tabselect" label="Emulators" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
                     <Tab className="tabselect" label="Tests" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
                     <Tab className="tabselect" label="Bugs" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
-                    <Tab className="tabselect" label="Cost" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
+                    <Tab className="tabselect" label="Analytics" style={{ fontSize: "13px", color: "black", border: "0.1px solid teal" }} />
                 </Tabs>
                 {currentTab}
             </div>

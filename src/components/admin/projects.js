@@ -110,6 +110,11 @@ class Projects extends Component {
                                     <div className="col-md-9" style={{ paddingLeft: "55px", textAlign: "left" }}>
                                         <div className="row inline"><h4 style={{ marginBottom: "6px", paddingBottom: "0px" }}>{project.name}</h4></div>
                                         <div class="row">
+                                            <Typography color="" variant="h6" style={{ display: "inline" }}>
+                                                {project.description}
+                                            </Typography>
+                                        </div>
+                                        <div class="row">
                                             <Typography color="" variant="h6" style={{ display: "inline" }}><span class="glyphicon glyphicon-user"></span>
                                                 &nbsp;Manager: {project.managerId.name}
                                             </Typography>
