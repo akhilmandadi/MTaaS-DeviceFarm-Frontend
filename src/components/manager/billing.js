@@ -7,6 +7,8 @@ import BillsHome from './billsHome';
 import Bills from './bills';
 import '../../App.css';
 import ProjectCost from './projectCosts';
+import Button from '@material-ui/core/Button';
+import {Link} from 'react-router-dom';
 
 class BillsDashboard extends Component {
     constructor(props) {
@@ -50,6 +52,7 @@ class BillsDashboard extends Component {
             selectedProject: this.state.projects[_.findIndex(this.state.projects, ['id', event.target.value])]
         })
     }
+
     render() {
         let graph = null;
         if (!_.isEmpty(this.state.selectedProject)) {
@@ -74,6 +77,9 @@ class BillsDashboard extends Component {
                 </div>
                 </div>
                 {graph}
+                <div style={{textAlign:"-webkit-center"}}>
+                    <Button variant="contained" color="primary"><Link to="/manager/viewbills" style={{ color: "white" }}>View Bills</Link></Button>
+                </div>
             </div>
         )
     }
