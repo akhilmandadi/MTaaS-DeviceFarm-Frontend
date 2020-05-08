@@ -15,9 +15,7 @@ import AdminUsers from '../components/admin/users';
 import CreateRun from '../components/tester/realdevices/CreateRun';
 import RemoteAccessSession from '../components/tester/emulators/RemoteAccessSession';
 import ViewTests from '../components/tester/tests';
-
-
-
+import Profile from '../components/tester/profile';
 
 class Routes extends Component {
   render() {
@@ -42,6 +40,7 @@ class Routes extends Component {
         <Route path="/project/:id/tests" exact component={ViewTests} />
         <Route path="/project/:projectId/remoteAccessSession/:id" exact component={RemoteAccessSession} />
         <Route path="/tester/:testerId/project/:projectId/real_devices/create_run" exact component={CreateRun} />
+        <Route path="/tester/:id/profile" exact component={Profile} />
       </div>
     );
   }

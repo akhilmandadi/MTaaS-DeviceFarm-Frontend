@@ -162,6 +162,7 @@ class Testers extends Component {
                                     return (
                                         <TableRow hover role="checkbox" tabIndex={-1} key={row['id']['_id']}>
                                             {columns.map(column => {
+                                                console.log(row['id']['_id'])
                                                 let value = row['id'][column.id];
                                                 if (column.id === "remove" && sessionStorage.getItem("persona") === "manager") {
                                                     return (
@@ -172,7 +173,7 @@ class Testers extends Component {
                                                 }
                                                 return (
                                                     <TableCell key={column.id} align={column.align} style={{ fontSize: "12px", textAlign: "center" }}>
-                                                        {value}
+                                                        <Link to={"/tester/" + row['id']['_id'] + "/profile"} >{value}</Link>
                                                     </TableCell>
                                                 );
                                             })}

@@ -57,9 +57,10 @@
 
 ::-webkit-scrollbar-track {
   background: #f1f1f1; 
-} 
+}
+ 
 ::-webkit-scrollbar-thumb {
-  background: rgb(250, 146, 146); 
+  background: rgb(167, 167, 167); 
 }
 
 ::-webkit-scrollbar-thumb:hover {
