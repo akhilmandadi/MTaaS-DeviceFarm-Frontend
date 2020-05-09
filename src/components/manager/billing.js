@@ -25,12 +25,10 @@ class BillsDashboard extends Component {
         axios.get(url)
             .then(response => {
                 if (response.status === 200) {
-                    console.log(response.data)
                     let projectNames = []
                     response.data.forEach(element => {
                         projectNames.push({ "name": element.name, "id": element._id })
                     });
-                    console.log(projectNames)
                     this.setState({
                         projects: projectNames,
                         selectedProject: projectNames[0]
