@@ -41,17 +41,16 @@ export default class Cost extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.getProjectAllocationInfo();
+        this.getProjectAllocationInfo(nextProps.project.id);
     }
     componentDidMount() {
-        this.getProjectAllocationInfo();
+        this.getProjectAllocationInfo(this.props.project.id);
     }
-    fetchEmulatorSessions = async () => {
+    fetchEmulatorSessions = async (id) => {
         return await new Promise((resolve, reject) => {
-            const { project } = this.props;
             let url = process.env.REACT_APP_BACKEND_URL + '/remoteAccessSession';
             let params = {
-                project: project.id
+                project: id
             }
             axios.defaults.withCredentials = true;
             axios.get(url, { params: params })
@@ -68,10 +67,9 @@ export default class Cost extends Component {
         })
     }
 
-    fetchRuns = async () => {
+    fetchRuns = async (id) => {
         return await new Promise((resolve, reject) => {
-            const { project } = this.props;
-            let url = process.env.REACT_APP_BACKEND_URL + '/project/' + project.id + '/tests';
+            let url = process.env.REACT_APP_BACKEND_URL + '/project/' + id + '/tests';
             axios.defaults.withCredentials = true;
             axios.get(url)
                 .then(response => {
@@ -86,12 +84,12 @@ export default class Cost extends Component {
     }
 
 
-    getProjectAllocationInfo = async () => {
-        let remoteSessions = await this.fetchEmulatorSessions().catch(e => {
+    getProjectAllocationInfo = async (id) => {
+        let remoteSessions = await this.fetchEmulatorSessions(id).catch(e => {
             console.error(e)
             return [];
         });
-        let runs = await this.fetchRuns().catch(e => {
+        let runs = await this.fetchRuns(id).catch(e => {
             console.error(e)
             return [];
         });
