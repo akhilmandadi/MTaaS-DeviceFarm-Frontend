@@ -49,7 +49,7 @@ class Bills extends Component {
     }
 
     getProjects = () => {
-        let url = process.env.REACT_APP_BACKEND_URL + '/projects/' + sessionStorage.getItem("id") + '?persona=manager';
+        let url = process.env.REACT_APP_BACKEND_URL + '/admin/projects';
         axios.defaults.withCredentials = true;
         axios.get(url)
             .then(response => {
@@ -81,7 +81,6 @@ class Bills extends Component {
                     project = element;
                 }
             });
-            console.log(project);
             this.getProjectAllocationInfo(project);
         }
         else {
@@ -102,6 +101,8 @@ class Bills extends Component {
             axios.get(url, { params: params })
                 .then(response => {
                     if (response.status === 200 && response.data) {
+                        console.log('response.data.remoteSessions');
+                        console.log(response.data);
                         resolve(response.data.remoteSessions);
                     } else {
                         reject(response.data.error);
@@ -132,12 +133,13 @@ class Bills extends Component {
 
     getProjectAllocationInfo = async (project) => {
         let remoteSessions = await this.fetchEmulatorSessions(project).catch(e => {
+            console.error(e);
             return [];
         });
         let runs = await this.fetchRuns(project).catch(e => {
+            console.error(e);
             return [];
         });
-
         this.generateData(runs, remoteSessions);
     }
 
