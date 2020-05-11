@@ -12,11 +12,12 @@ export default class Home extends Component {
         this.state = {
             data02: [
             ],
-            data01: { name: 'Total Devices Allocated', value: 10 }
+            data01: { name: 'Total Devices Allocated', value: 10 },
+            totaldevice: 0
         }
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         this.fetchDevicesList()
         this.fetchTestResultsList()
     }
@@ -37,7 +38,8 @@ export default class Home extends Component {
                     console.log(this.state.data01)
                     console.log({ name: "Total Device Allocated", value: response.data.allocations.currentAllocations.length })
                     this.setState({
-                       data01: [{ name: "Total Device Allocated", value: response.data.allocations.currentAllocations.length }]
+                        totaldevice: response.data.allocations.currentAllocations.length,
+                        data01: [{ name: "Total Device Allocated", value: response.data.allocations.currentAllocations.length }]
                     })
                 }
             })
@@ -87,14 +89,14 @@ export default class Home extends Component {
                             </tr>
                             <tr class="bg-dark" style={{ textAlign: "center", backgroundColor: "black" }}>
                                 <th class="bg-dark" scope="row" style={{ textAlign: "center", color: "white" }}>No of Devices allocated</th>
-                                <td class="bg-dark" style={{ textAlign: "center", color: "white" }}>1</td>
+                                <td class="bg-dark" style={{ textAlign: "center", color: "white" }}>{this.state.totaldevice}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div className="col-md-4">
                     <PieChart width={400} height={400} style={{ padding: "0px" }}>
-                    <Pie data={this.state.data01} isAnimationActive={true} dataKey="value" cx={200} cy={200} outerRadius={60} fill="#8884d8" />
+                        <Pie data={this.state.data01} isAnimationActive={true} dataKey="value" cx={200} cy={200} outerRadius={60} fill="#8884d8" />
                         <Pie data={this.state.data02} dataKey="value" cx={200} cy={200} innerRadius={70} outerRadius={120} fill="#82ca9d" label />
                         <Tooltip />
                     </PieChart>
