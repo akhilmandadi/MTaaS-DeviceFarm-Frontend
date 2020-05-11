@@ -165,7 +165,7 @@ class Projects extends Component {
                                         </div>
                                     </div>
                                     <div className="col-md-2">
-                                        <Button variant="outlined" color="secondary" onClick={() => this.updateProjectStatus(true, project._id)}>
+                                        <Button variant="outlined" color="secondary" onClick={() => this.deleteProject(project._id)}>
                                             <span title="Delete" class="glyphicon glyphicon-trash" style={{ fontSize: "16px", color: "red", marginRight: "5px" }}></span><b>Delete Project</b>
                                         </Button>
                                     </div>
