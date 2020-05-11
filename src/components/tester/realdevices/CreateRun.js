@@ -79,6 +79,8 @@ class CreateRun extends Component {
         let url = `${process.env.REACT_APP_BACKEND_URL}/allocations/prebook`;
         axios.get(url, {params: query}).then(resp => {
             let currentAllocations = resp.data.allocations.currentAllocations || [];
+            debugger
+            currentAllocations = currentAllocations.filter(allocation => allocation.deviceType === 'real')
             currentAllocations.forEach(allocation => {
                 let osType = allocation.osType === 'ANDROID' ? 0 : 1;
                 this.state.supportedDevices[osType].push({
