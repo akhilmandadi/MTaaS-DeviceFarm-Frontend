@@ -10,8 +10,11 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data02: [],
-            data01: {}
+            data02: [
+
+            ],
+            data01: { name: 'Total Devices Allocated', value: 10 },
+            totaldevice: 0
         }
     }
 
@@ -33,8 +36,11 @@ export default class Home extends Component {
         axios.get(url, { params: param })
             .then(response => {
                 if (response.status === 200) {
+                    console.log(this.state.data01)
+                    console.log({ name: "Total Device Allocated", value: response.data.allocations.currentAllocations.length })
                     this.setState({
-                        data01: { name: "Total Device Allocated", value: response.data.allocations.currentAllocations.length }
+                        totaldevice: response.data.allocations.currentAllocations.length,
+                        data01: [{ name: "Total Device Allocated", value: response.data.allocations.currentAllocations.length }]
                     })
                 }
             })
@@ -88,7 +94,7 @@ export default class Home extends Component {
                             </tr>
                             <tr class="bg-dark" style={{ textAlign: "center", backgroundColor: "black" }}>
                                 <th class="bg-dark" scope="row" style={{ textAlign: "center", color: "white" }}>No of Devices allocated</th>
-                                <td class="bg-dark" style={{ textAlign: "center", color: "white" }}>1</td>
+                                <td class="bg-dark" style={{ textAlign: "center", color: "white" }}>{this.state.totaldevice}</td>
                             </tr>
                         </tbody>
                     </table>
