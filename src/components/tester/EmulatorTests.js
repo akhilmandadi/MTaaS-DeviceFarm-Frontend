@@ -112,12 +112,12 @@ class EmulatorTests extends Component {
     }
 
     fetchEmulatorSessions = () => {
-        const { project,tester } = this.props;
+        const { project } = this.props;
         let url = process.env.REACT_APP_BACKEND_URL + '/remoteAccessSession';
         let params = {
-            tester: tester,
             project: project
         }
+        this.props.tester && (params.tester = this.props.tester);
         axios.defaults.withCredentials = true;
         axios.get(url, {params: params})
             .then(response => {

@@ -12,6 +12,7 @@ import Emulators from './emulators';
 import Billing from './projectBilling';
 import Cost from './cost';
 import '../../App.css';
+import EmulatorTests from '../tester/EmulatorTests';
 
 class ProjectDashboard extends Component {
     constructor(props) {
@@ -63,7 +64,8 @@ class ProjectDashboard extends Component {
         if (this.state.tab === 1) currentTab = <Testers project={this.state.project} getProjectInfo={this.getProjectInfo} />
         if (this.state.tab === 2) currentTab = <Devices project={this.state.project} getProjectInfo={this.getProjectInfo} />
         if (this.state.tab === 3) currentTab = <Emulators project={this.state.project} getProjectInfo={this.getProjectInfo} />
-        if (this.state.tab === 4) currentTab = <Tests project={this.state.project} />
+        if (this.state.tab === 4) currentTab = <div><Tests project={this.state.project} />
+        <EmulatorTests project={this.state.project._id}/></div>
         if (this.state.tab === 5) currentTab = <Bugs project={this.state.project} getProjectInfo={this.getProjectInfo} />
         if (this.state.tab === 6) currentTab = <Billing project={this.state.project}  />
         return (
