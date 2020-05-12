@@ -93,7 +93,7 @@ class Tests extends Component {
             loadingText: "Fetching tests!"
         })
         const { project } = this.props;
-        let url = process.env.REACT_APP_BACKEND_URL + '/project/' + project._id + '/tests';
+        let url = process.env.REACT_APP_BACKEND_URL + '/project/' + project._id + '/tests?testerId='+sessionStorage.getItem('id');
         axios.defaults.withCredentials = true;
         axios.get(url)
             .then(response => {
